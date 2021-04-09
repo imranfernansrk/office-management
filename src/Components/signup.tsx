@@ -1,19 +1,24 @@
 import React, { useState, SetStateAction, Dispatch, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  } from "redux";
+import { } from "redux";
 import { states } from "../reducer";
 import { addEmpData, OrgActions, addManagerData } from "../actions";
-import { store } from '../store';
+import ManagerSignup from "./managerSignup";
+import EmployeeSignup from "./employeeSignup";
+import { Typography, Form, Input, Button, Modal } from "antd";
 
-interface Props{
-    // closeSignupPopup: Dispatch<SetStateAction<boolean>>,
+
+import "./styles/signupPage.css";
+
+interface Props {
+    signupContainer: boolean,
     setLoginContainer: Dispatch<SetStateAction<boolean>>,
     setSignupContainer: Dispatch<SetStateAction<boolean>>,
     managerProfile: boolean,
     employeeProfile: boolean
 }
 
-const SignUpPage = ({setLoginContainer, setSignupContainer, managerProfile, employeeProfile}: Props) => {
+const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, managerProfile, employeeProfile }: Props) => {
     const datas: any = useSelector<states.orgStateModel.OrgStateModel>(state => state)
 
     const actionDispatch = useDispatch<Dispatch<OrgActions.actionObj>>();
@@ -35,46 +40,46 @@ const SignUpPage = ({setLoginContainer, setSignupContainer, managerProfile, empl
         name: '',
         id: 0,
         loginPassword: '',
-        teamsId:[]
+        teamsId: []
     })
 
     const onChangeEventEmp = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: string = event.target.value
-        setEmployeeData({...employeeData, [fieldName]:value})
+        setEmployeeData({ ...employeeData, [fieldName]: value })
         console.log(fieldName, value)
     }
     const onChangeEventNumEmp = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: number = +event.target.value
-        setEmployeeData({...employeeData, [fieldName]:value})
+        setEmployeeData({ ...employeeData, [fieldName]: value })
         console.log(fieldName, value)
     }
     const onChangeEventMngr = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: string = event.target.value
-        setManagerData({...managerData, [fieldName]:value})
+        setManagerData({ ...managerData, [fieldName]: value })
         console.log(fieldName, value)
     }
     const onChangeEventNumMngr = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: number = +event.target.value
-        setManagerData({...managerData, [fieldName]:value})
+        setManagerData({ ...managerData, [fieldName]: value })
         console.log(fieldName, value)
     }
 
-    const onSubmitMngr = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
-        event.preventDefault()
+    const onSubmitMngr = () => {
+        // event.preventDefault()
 
         actionDispatch(addManagerData(managerData))
         console.log(datas)
-        datas.teamManagers.map((data: states.teamManagerObj)=>{
+        datas.teamManagers.map((data: states.teamManagerObj) => {
             console.log(data)
         })
         showLoginContainer()
     }
-    const onSubmitEmp = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
-        event.preventDefault()
+    const onSubmitEmp = () => {
+        // event.preventDefault()
 
         actionDispatch(addEmpData(employeeData))
         console.log(datas.employees)
@@ -86,14 +91,31 @@ const SignUpPage = ({setLoginContainer, setSignupContainer, managerProfile, empl
         setSignupContainer(false)
     }
     return (
-        <div>
+        <div className="">
             {
                 managerProfile && (
-            <div>
-                <div>
-                    <h3 className="text-center">Manager Sign Up</h3>
-                </div>
-                <form onSubmit={onSubmitMngr}>
+                    <Modal title="Create New Account" visible={signupContainer}
+                        footer={
+                            [<Button type="primary"
+                                size="large"
+                                className="CLOSE_SIGNUP_BUTTON"
+                                onClick={() => showLoginContainer()}>
+                                Close
+                            </Button>,
+                            <Button type="primary"
+                                size="large"
+                                onClick={() => onSubmitMngr()}
+                                htmlType="submit"
+                                className="">
+                                Create Account
+                            </Button>
+                            ]}>
+                        <ManagerSignup
+                            onSubmitMngr={onSubmitMngr}
+                            onChangeEventMngr={onChangeEventMngr}
+                            onChangeEventNumMngr={onChangeEventNumMngr}
+                            showLoginContainer={showLoginContainer} />
+                        {/* <form onSubmit={onSubmitMngr}>
                     <div>
                         <label >Name : </label>
                         <input className=""type="text" name="name" onChange={onChangeEventMngr}/>
@@ -114,17 +136,34 @@ const SignUpPage = ({setLoginContainer, setSignupContainer, managerProfile, empl
                         <button className="btn btn-md btn-success mr-2" onSubmit={onSubmitMngr}>Submit</button>
                         <button className="btn btn-danger" onClick={()=>showLoginContainer()}>Close</button>
                     </div>
-                </form>
-            </div>
+                </form> */}
+                    </Modal>
                 )
             }
             {
                 employeeProfile && (
-                    <div>
-                    <div>
-                        <h3 className="text-center">Employee Sign Up</h3>
-                    </div>
-                    <form onSubmit={onSubmitEmp}>
+                    <Modal title="Create New Account" visible={signupContainer}
+                    footer={
+                        [<Button type="primary"
+                            size="large"
+                            className="CLOSE_SIGNUP_BUTTON"
+                            onClick={() => showLoginContainer()}>
+                            Close
+                        </Button>,
+                        <Button type="primary"
+                            size="large"
+                            onClick={() => onSubmitEmp()}
+                            htmlType="submit"
+                            className="">
+                            Create Account
+                        </Button>
+                        ]}>
+                        <EmployeeSignup
+                            onChangeEventEmp={onChangeEventEmp}
+                            onChangeEventNumEmp={onChangeEventNumEmp}
+                            onSubmitEmp={onSubmitEmp}
+                            showLoginContainer={showLoginContainer} />
+                        {/* <form onSubmit={onSubmitEmp}>
                         <div>
                             <label>Name : </label>
                             <input type="text" name="name" onChange={onChangeEventEmp}/>
@@ -140,10 +179,9 @@ const SignUpPage = ({setLoginContainer, setSignupContainer, managerProfile, empl
                         <div>
                             <button className="btn btn-md btn-success mr-2" type="submit" onSubmit={onSubmitEmp}>Submit</button>
                             <button className="btn btn-danger" onClick={()=>showLoginContainer()}>Close</button>
-                            {/* <button className="btn btn-danger" onClick={()=>closeSignupPopup(false)}>Close</button> */}
                         </div>
-                    </form>
-                </div>
+                    </form> */}
+                    </Modal>
                 )
             }
         </div>

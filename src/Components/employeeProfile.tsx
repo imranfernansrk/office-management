@@ -51,7 +51,7 @@ const EmployeeProfile = ({name, id, teamsId}: activeEmp) => {
     console.log(id)
     console.log(datas.messages)
     return(
-        <div className="mt-3">
+        <div className="">
             {/* Hai {id} Teams {teamsId} */}
             <div>
                 <h2 className="text-center">Employee Profile</h2>

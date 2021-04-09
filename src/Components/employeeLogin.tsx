@@ -2,7 +2,12 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { states } from "../reducer";
 import EmployeeProfile from "./employeeProfile";
-import SignUpPage from "./signUp";
+import SignUpPage from "./signup";
+
+import './styles/employeeLogin.css'
+
+import { Typography, Form, Input, Button, Modal } from "antd";
+const { Title } = Typography;
 
 interface Props {
     showLogoutButton: Dispatch<SetStateAction<boolean>>
@@ -24,12 +29,16 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
 
     const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
-        let value: Number | String = event.target.value
-        setLoginData({ ...loginData, [fieldName]: value })
+        let value: string = event.target.value
+        console.log(value)
+        if (fieldName == 'id') {
+            setLoginData({ ...loginData, [fieldName]: +value })
+        } else {
+            setLoginData({ ...loginData, [fieldName]: value })
+        }
+        console.log([fieldName],value)
     }
     const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
-        event.preventDefault()
-
         let empDatas: states.employeeObj[] = datas.employees
 
         console.log(loginData)
@@ -61,62 +70,94 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
         setSignupContainer(true)
     }
     return (
-        <div>
-            <div>
+        <div className="EMPLOYEE_LOGIN_PROFILE">
                 {
                     loginContainer && (
-                        <div>
-                            <div>
-                                <h2 className="text-center">Employee Login</h2>
-                            </div>
-                            <div>
-                                <form className="form" onSubmit={onSubmitEvent}>
-                                    <div className="form-group">
-                                        <label className="font-weight-bold">Enter Employee Id</label>
-                                        <input className="form-control" type="text" name="id" onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value }) }} />
+                        // <div>
+                        //     <div>
+                        //         <h2 className="text-center">Employee Login</h2>
+                        //     </div>
+                        //     <div>
+                        //         <form className="form" onSubmit={onSubmitEvent}>
+                        //             <div className="form-group">
+                        //                 <label className="font-weight-bold">Enter Employee Id</label>
+                        //                 <input className="form-control" type="text" name="id" onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value }) }} />
+                        //             </div>
+                        //             <div className="form-group">
+                        //                 <label className="font-weight-bold">Enter Password</label>
+                        //                 <input className="form-control" type="password" name="loginPassword" onChange={onChangeEvent} />
+                        //             </div>
+                        //             <div>
+                        //                 <button className="btn btn-primary mr-2" type="submit" onSubmit={onSubmitEvent}>Login</button>
+                        //                 <button className="btn btn-outline-primary" type="submit" onClick={onClickSignUpContainer}>Sign Up</button>
+                        //             </div>
+                        //         </form>
+                        //     </div>
+                        // </div>
+                        <div className="LOGIN_FORM_CONTAINER">
+                                <Form
+                                    name="normal_login"
+                                    className="LOGIN_FORM"
+                                    onFinish={(e)=>onSubmitEvent(e)}
+                                    style={{padding:'10px'}}
+                                    >
+                                    <Title level={2} className="text-center">Employee Login</Title>
+                                    <Form.Item
+                                        label="Employee Id"
+                                        rules={[{ required: true, message: 'Please input your id!' }]}
+                                    >
+                                        <Input onChange={(e) => onChangeEvent(e)}
+                                            name="id"
+                                            value={loginData.id}
+                                            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value })}} 
+                                            placeholder="Enter Manager Id" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label="Password"
+                                        rules={[{ required: true, message: 'Please input your password!' }]}
+                                    >
+                                        <Input.Password
+                                            value={loginData.loginPassword}
+                                            name="loginPassword"
+                                            onChange={(e) => onChangeEvent(e)}
+                                            placeholder="Enter Password" />
+                                    </Form.Item>
+                                    <Form.Item
+                                        className="LOGIN_FORGOT_LINK">
+                                        <a className="login-form-forgot" href="">
+                                            Forgot password
+                                        </a>
+                                    </Form.Item>
+                                    <div
+                                        className="LOGIN_FORM_BUTTONS">
+                                        <Button type="primary"
+                                            size="large"
+                                            htmlType="submit"
+                                            className="LOGIN_BUTTON"
+                                            >
+                                            Login
+                                        </Button>
+                                        <Button type="primary"
+                                            size="large"
+                                            className="SIGNUP_BUTTON"
+                                            onClick={() => onClickSignUpContainer()}>
+                                            Sign Up
+                                        </Button>
                                     </div>
-                                    <div className="form-group">
-                                        <label className="font-weight-bold">Enter Password</label>
-                                        <input className="form-control" type="password" name="loginPassword" onChange={onChangeEvent} />
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-primary mr-2" type="submit" onSubmit={onSubmitEvent}>Login</button>
-                                        <button className="btn btn-outline-primary" type="submit" onClick={onClickSignUpContainer}>Sign Up</button>
-                                    </div>
-                                </form>
-                            </div>
+                                </Form>
                         </div>
                     )
                 }
-            </div>
-            {/* <div>
-                <h2>Employee Login</h2>
-            </div>
-            <div>
-            <form className="form" onSubmit={onSubmitEvent}>
-                <div className="form-group">
-                    <label className="font-weight-bold">Enter Employee Id</label>
-                    <input className="form-control" type="text" name="id" onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{setLoginData({...loginData, id : +event.target.value})}}/>
-                </div>
-                <div className="form-group">
-                    <label className="font-weight-bold">Enter Password</label>
-                    <input className="form-control" type="text" name="loginPassword" onChange={onChangeEvent}/>
-                </div>
-                <div>
-                <button className="btn btn-primary" type="submit" onSubmit={onSubmitEvent}>Login</button>
-                </div>
-            </form>
-            </div> */}
-            <div>
                 {
-                    signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>)
+                    signupContainer && <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>
                 }
-            </div>
-            <div>
+
+                {
+                    // signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>)
+                }
                 {
                     validLogin ? (<EmployeeProfile name={activeEmpName} id={activeEmployeeId} teamsId={activeTeamsId} />) : null
                 }
-            </div>
         </div>
     )
 }

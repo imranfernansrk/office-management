@@ -46,7 +46,7 @@ export const ManagerProfile = ({managerName, teamId}: teamId) => {
     }
     const value: string[] =  datas.employees.map((data: states.employeeObj)=>data.id)
     return(
-        <div className="mt-3">
+        <div className="">
             <div>
                 <h2 className="text-center">Manager Profile</h2>
                 <h3>Hi {managerName}</h3>

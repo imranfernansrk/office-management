@@ -4,6 +4,11 @@ import ManagerLogin from "./managerLogin";
 import { Button } from 'antd'
 
 import "./styles/homepage.css";
+// import Login from 'ant-design-pro/lib/Login';
+// import { Alert, Checkbox } from 'antd';
+
+// const { UserName, Password, Mobile, Captcha, Submit } = Login;
+
 
 const Homepage: React.FC = () => {
     const [needManagerProfile, setNeedManagerProfile] = useState<boolean>(false)
@@ -75,6 +80,10 @@ const Homepage: React.FC = () => {
                     showLogoutButton ? (<button className="btn btn-danger float-right" onClick={()=>onClickLogoutButton()}>Log Out</button>) : null
                 } */}
             </div>
+            {/* <div>
+                <UserName type="text" placeholder="username" form="" updateActive={()=>{}} />
+                <Password type="password" placeholder="password" form="" updateActive={()=>{}} />
+            </div> */}
             <div className="HOMEPAGE_PROFILE_CONTAINER">
                 {
                     needManagerProfile ? (<ManagerLogin showLogoutButton={setShowLogoutButton} />) : null

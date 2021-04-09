@@ -2,11 +2,11 @@ import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useSelector } from "react-redux";
 import { states } from "../reducer";
 import ManagerProfile from "./managerProfile";
-import SignUpPage from "./signUp";
+import SignUpPage from "./signup";
 
 import './styles/managerLogin.css'
 
-import { Typography, Form, Input, Button } from "antd";
+import { Typography, Form, Input, Button, Modal } from "antd";
 const { Title } = Typography;
 
 interface Props {
@@ -44,9 +44,11 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
         } else {
             setLoginData({ ...loginData, [fieldName]: value })
         }
+        console.log([fieldName],value)
     }
     const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
-        event.preventDefault()
+        console.log('submitclicked')
+        // event.preventDefault()
 
         let mngrDatas: states.teamManagerObj[] = datas.teamManagers
 
@@ -97,36 +99,39 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
     };
 
     return (
-        <div>
-            <div>
+        <div className="MANAGER_LOGIN_PROFILE">
                 {
                     loginContainer && (
-                        <div>
-                            <div>
-                                <Title level={2} className="text-center">Manager Login</Title>
-                            </div>
-                            <div className="FORM_CONTAINER">
+                        // <div>
+                            // {/* <div>
+                            //     <Title level={2} className="text-center">Manager Login</Title>
+                            // </div> */}
+                            <div className="LOGIN_FORM_CONTAINER">
                                 <Form
                                     name="normal_login"
-                                    className="LOGIN_FORM">
+                                    className="LOGIN_FORM"
+                                    onFinish={(e)=>onSubmitEvent(e)}
+                                    style={{padding:'10px'}}
+                                    >
                                     {/* {...layout}> */}
+                                    <Title level={2} className="text-center">Manager Login</Title>
                                     <Form.Item
                                         label="Manager Id"
-                                        name="id"
                                         rules={[{ required: true, message: 'Please input your id!' }]}
                                     >
                                         <Input onChange={(e) => onChangeEvent(e)}
+                                            name="id"
                                             value={loginData.id}
                                             // onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value })}} 
                                             placeholder="Enter Manager Id" />
                                     </Form.Item>
                                     <Form.Item
                                         label="Password"
-                                        name="loginPassword"
                                         rules={[{ required: true, message: 'Please input your password!' }]}
                                     >
                                         <Input.Password
                                             value={loginData.loginPassword}
+                                            name="loginPassword"
                                             onChange={(e) => onChangeEvent(e)}
                                             placeholder="Enter Password" />
                                     </Form.Item>
@@ -141,12 +146,14 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
                                         <Button type="primary"
                                             size="large"
                                             htmlType="submit"
-                                            className="LOGIN_BUTTON">
+                                            className="LOGIN_BUTTON"
+                                            >
                                             Login
                                         </Button>
                                         <Button type="primary"
                                             size="large"
-                                            className="SIGNUP_BUTTON">
+                                            className="SIGNUP_BUTTON"
+                                            onClick={() => onClickSignUpContainer()}>
                                             Sign Up
                                         </Button>
                                     </div>
@@ -166,16 +173,18 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
                                     </div>
                                 </form> */}
                             </div>
-                        </div>
+                        // </div>
                     )
                 }
-            </div>
+            {/* <Modal title="Create New Account" visible={signupContainer}> */}
+                <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />
+            {/* </Modal> */}
             {
-                signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />)
+                // signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />)
             }
             {
                 // validLogin ? (<div><ManagerProfile managerName={activeManagerName} teamId={activeTeamId}/><Messages teamId={activeTeamId} /></div>) : null
-                validLogin ? (<div><ManagerProfile managerName={activeManagerName} teamId={activeTeamId} /></div>) : null
+                validLogin ? (<ManagerProfile managerName={activeManagerName} teamId={activeTeamId} />) : null
             }
         </div>
     )

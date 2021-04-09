@@ -1,0 +1,15 @@
+.SIGNUP_CONTAINER {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.SIGNUP_FOOTER_BUTTONS {
+    display: flex;
+    justify-content: flex-end;
+}
+/* .CREATE_BUTTON {
+    margin: 5px;
+} */
+.CLOSE_SIGNUP_BUTTON {
+    margin-right: 5px;
+}

@@ -67,7 +67,7 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
         <div className="mt-3">
             <form onSubmit={onSubmitMessage}>
                 <input className="mr-3" type="text" name="content" onChange={onChangeEvent}/>
-                <button className="btn btn-md btn-outline-success" type="submit" onSubmit={onSubmitMessage}>Post</button>
+                <button className="btn btn-md btn-success" type="submit" onSubmit={onSubmitMessage}>Post</button>
             </form>
         </div>
     )

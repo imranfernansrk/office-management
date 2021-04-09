@@ -6,6 +6,7 @@ import Homepage from './Components/homepage';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
+import 'ant-design-pro/dist/ant-design-pro.css';
 
 const App: React.FC = () => {
   return (
