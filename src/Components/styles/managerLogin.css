@@ -1,0 +1,16 @@
+.FORM_CONTAINER {
+    display: flex;
+    justify-content: center;
+}
+.LOGIN_FORM {
+  /* border: 2px solid black; */
+  padding: 10px;
+  width: 35%;
+}
+.LOGIN_FORGOT_LINK{
+    text-align: right;
+}
+.LOGIN_FORM_BUTTONS{
+      display: flex;
+      justify-content: space-between;
+}
