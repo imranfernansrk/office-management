@@ -1,0 +1,49 @@
+.HOMEPAGE_CONTENT {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url(https://trainingindustry.com/content/uploads/2019/09/Skills-Gap-Analysis-9.10.19-928x522.jpg);
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    -webkit-filter: blur(8px);    
+    background-attachment: fixed;  
+    background-size: cover; */
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+.MAIN_CONTENT_BG_IMAGE {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    background-image: url(https://trainingindustry.com/content/uploads/2019/09/Skills-Gap-Analysis-9.10.19-928x522.jpg);
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    /* -webkit-filter: blur(8px);     */
+    /* background-attachment: fixed;   */
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+.HOMEPAGE_HEADER {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    /* background-color: white; */
+    padding: 0;
+}
+.HOMEPAGE_HEADER_MENUS {
+    display: flex;
+    justify-content: flex-end;
+    /* background-color: transparent; */
+}
+.MAIN_CONTENT_TITLE {
+    position: absolute;
+    text-align: center;
+}
+.HEADER_CONTENT_LAYOUT {
+    position: relative;
+}
+.FOOTER_CONTENT {
+    text-align: center;
+}

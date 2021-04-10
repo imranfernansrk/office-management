@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useHistory, generatePath, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { states } from "../reducer";
 import ManagerProfile from "./managerProfile";
@@ -40,7 +41,8 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
         let value: string = event.target.value
         console.log(value)
         if (fieldName == 'id') {
-            setLoginData({ ...loginData, [fieldName]: +value })
+            console.log(+value)
+                setLoginData({ ...loginData, [fieldName]: +value })
         } else {
             setLoginData({ ...loginData, [fieldName]: value })
         }
@@ -70,6 +72,7 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
                     setLoginData({ id: undefined, loginPassword: '' })
                     console.log('success')
                     console.log('in map', validLogin, teamId)
+                    validLoginManager(data.id)
                 } else {
                     alert(`Password Incorrect`)
                     setLoginData({ ...loginData, loginPassword: '' })
@@ -98,6 +101,18 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
         wrapperCol: { offset: 8, span: 16 },
     };
 
+    const history = useHistory();
+    const validLoginManager = (id: number) => {
+        id && history.push(generatePath("/managerProfile/:id", { id }));
+        console.log('manager id', id);
+        setValidLogin(true);
+    } 
+
+    if(validLogin){
+        return(
+            <Redirect to="/managerProfile/:id" />
+        )
+    }
     return (
         <div className="MANAGER_LOGIN_PROFILE">
                 {
@@ -114,10 +129,10 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
                                     style={{padding:'10px'}}
                                     >
                                     {/* {...layout}> */}
-                                    <Title level={2} className="text-center">Manager Login</Title>
+                                    {/* <Title level={2} className="text-center">Manager Login</Title> */}
                                     <Form.Item
-                                        label="Manager Id"
-                                        rules={[{ required: true, message: 'Please input your id!' }]}
+                                        // label="Manager Id"
+                                        // rules={[{ required: true, message: 'Please input your id!' }]}
                                     >
                                         <Input onChange={(e) => onChangeEvent(e)}
                                             name="id"
@@ -126,37 +141,44 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
                                             placeholder="Enter Manager Id" />
                                     </Form.Item>
                                     <Form.Item
-                                        label="Password"
-                                        rules={[{ required: true, message: 'Please input your password!' }]}
+                                        // label="Password"
+                                        // rules={[{ required: true, message: 'Please input your password!' }]}
                                     >
                                         <Input.Password
                                             value={loginData.loginPassword}
                                             name="loginPassword"
                                             onChange={(e) => onChangeEvent(e)}
-                                            placeholder="Enter Password" />
+                                            placeholder="Enter Manager Password" />
                                     </Form.Item>
                                     <Form.Item
                                         className="LOGIN_FORGOT_LINK">
-                                        <a className="login-form-forgot" href="">
+                                        <a className="login-form-forgot">
                                             Forgot password
                                         </a>
                                     </Form.Item>
                                     <div
-                                        className="LOGIN_FORM_BUTTONS">
+                                        className="MANAGER_LOGIN_FORM_BUTTONS">
                                         <Button type="primary"
                                             size="large"
                                             htmlType="submit"
-                                            className="LOGIN_BUTTON"
+                                            className="MANAGER_LOGIN_BUTTON"
+                                            style={{width:'100%'}}
                                             >
                                             Login
                                         </Button>
-                                        <Button type="primary"
+                                        {/* <Button type="link"
                                             size="large"
-                                            className="SIGNUP_BUTTON"
+                                            className="MANAGER_SIGNUP_BUTTON"
                                             onClick={() => onClickSignUpContainer()}>
-                                            Sign Up
-                                        </Button>
+                                            Register
+                                        </Button> */}
                                     </div>
+                                    <Form.Item
+                                        className="LOGIN_FORGOT_LINK">
+                                        <a className="login-form-forgot" onClick={() => onClickSignUpContainer()}>
+                                        Register
+                                        </a>
+                                    </Form.Item>
                                 </Form>
                                 {/* <form className="form" onSubmit={onSubmitEvent}>
                                     <div className="form-group">
@@ -182,10 +204,10 @@ const ManagerLogin = ({ showLogoutButton }: Props) => {
             {
                 // signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />)
             }
-            {
+            {/* {
                 // validLogin ? (<div><ManagerProfile managerName={activeManagerName} teamId={activeTeamId}/><Messages teamId={activeTeamId} /></div>) : null
                 validLogin ? (<ManagerProfile managerName={activeManagerName} teamId={activeTeamId} />) : null
-            }
+            } */}
         </div>
     )
 

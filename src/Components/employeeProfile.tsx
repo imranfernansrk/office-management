@@ -1,16 +1,24 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link } from "react-router-dom";
 import { states } from "../reducer";
+import { Button } from "antd";
 
-interface activeEmp {
-    name: string
-    id: number
-    teamsId: number[] | undefined
-}
+// interface activeEmp {
+//     name: string
+//     id: number
+//     teamsId: number[] | undefined
+// }
 
-const EmployeeProfile = ({name, id, teamsId}: activeEmp) => {
+const EmployeeProfile = () => {
+    const emp: { id: string } = useParams()
+    console.log(emp.id)
+    console.log('manager profile', Object.values(emp.id))
+    let empId: number = +emp.id
+
     const datas: any = useSelector<states.orgStateModel.OrgStateModel>(state => state)
 
+    const [employeeDetails, setEmployeeDetails] = useState<states.employeeObj>()
     // const [messagesData, setMessagesData] = useState<states.message[]>(datas.messages)
     // useMemo(() => setMessagesData(datas.messages),[datas.messages])
 
@@ -19,16 +27,20 @@ const EmployeeProfile = ({name, id, teamsId}: activeEmp) => {
     //     setMessagesData(messagesData)
     // },[])
 
+    useEffect(() => {
+        const employeeData: states.employeeObj = datas.employees.find((data: states.employeeObj) => data.id == empId)
+        setEmployeeDetails(employeeData);
+    }, [empId])
     let teams: number[] | undefined;
 
-    datas.employees.map((data : states.employeeObj, index: number) => {
-        if(data.id == id){
+    datas.employees.map((data: states.employeeObj, index: number) => {
+        if (data.id == employeeDetails?.id) {
             teams = data.teamsId
         }
     })
     console.log(teams)
 
-    console.log(teamsId)
+    console.log(employeeDetails?.teamsId)
     //old
     // const messagesList: JSX.Element = datas.messages.map((data : states.message, index: number) =>
     //     {
@@ -39,23 +51,26 @@ const EmployeeProfile = ({name, id, teamsId}: activeEmp) => {
     //                     </ul>)
     //     }
     // );
-    const messagesList: JSX.Element = datas.messages.map((data : states.messageObj, index: number) =>
-    {
-        if(data.employeesId.includes(id))
+    const messagesList: JSX.Element = datas.messages.map((data: states.messageObj, index: number) => {
+        if (data.employeesId.includes(empId))
             return (<ul className="list-unstyled mt-3">
-                    <li>Message From Team Id : {data.teamId}</li>
-                    <li>Content : {data.content}</li>
-                    </ul>)
+                <li>Message From Team Id : {data.teamId}</li>
+                <li>Content : {data.content}</li>
+            </ul>)
     }
     );
-    console.log(id)
+    console.log(employeeDetails?.id)
     console.log(datas.messages)
-    return(
+    return (
         <div className="">
             {/* Hai {id} Teams {teamsId} */}
             <div>
-                <h2 className="text-center">Employee Profile</h2>
-                <h3>Hi {name}</h3>
+                <Button
+                    type="link"
+                    style={{ float: 'right', margin: '5px' }}>
+                    <Link to='/login'>Log Out</Link>
+                </Button>                <h2 className="text-center">Employee Profile</h2>
+                <h3>Hi {employeeDetails?.name}</h3>
             </div>
             <div>
                 <h4>Messages From Your Managers</h4>

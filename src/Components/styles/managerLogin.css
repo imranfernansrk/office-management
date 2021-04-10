@@ -8,22 +8,32 @@
     height: 100%;
 }
 .LOGIN_FORM {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   background-color: #ffffff;
   padding: 10px;
-  width: 35%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  /* width: 35%; */
+  width: 100%;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 .LOGIN_FORGOT_LINK{
     text-align: right;
 }
-.LOGIN_FORM_BUTTONS{
-      display: flex;
-      justify-content: space-between;
+.MANAGER_LOGIN_FORM_BUTTONS{
+      display: block;
 }
-/* .LOGIN_BUTTON {
- margin: 5px
+.MANAGER_LOGIN_BUTTON {
+display: flex; 
+justify-content: 'center';
+/* height: '40px'; */
+ width: '100%';
 }
-.SIGNUP_BUTTON {
-  margin: 5px
-} */
+.MANAGER_SIGNUP_BUTTON {
+  display: flex;
+  float: right;
+}
+/* .MANAGER_SIGNUP_BUTTON {
+  display: flex; 
+  justify-content: 'center';
+  height: '40px';
+   width: '436px';
+  } */

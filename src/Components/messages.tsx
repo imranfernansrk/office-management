@@ -2,10 +2,11 @@ import React, { useState, Dispatch, useMemo, useEffect, SetStateAction } from "r
 import { useDispatch, useSelector } from "react-redux";
 import { states } from "../reducer";
 import { OrgActions, addMessageData } from "../actions";
+import TextArea from "antd/lib/input/TextArea";
 
 export interface teamId {
     setMessageBox: Dispatch<SetStateAction<boolean>>
-    teamId: number
+    teamId: number | undefined
     selectedEmpsIds: number[]
 }
 
@@ -37,7 +38,7 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
     })
     console.log('After the setState',messageData)
 
-    const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const fieldName = event.target.name
         let value: string = event.target.value
 
@@ -66,8 +67,8 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
     return(
         <div className="mt-3">
             <form onSubmit={onSubmitMessage}>
-                <input className="mr-3" type="text" name="content" onChange={onChangeEvent}/>
-                <button className="btn btn-md btn-success" type="submit" onSubmit={onSubmitMessage}>Post</button>
+                <TextArea className="mr-3" name="content" onChange={(e)=>onChangeEvent(e)}/>
+                <button className="btn btn-md btn-success mt-2" type="submit" onSubmit={onSubmitMessage}>Send Message</button>
             </form>
         </div>
     )

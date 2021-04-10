@@ -1,20 +1,44 @@
-import React, { useState, Dispatch, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { states } from "../reducer";
 // import { OrgActions, addTeam } from "../Actions";        //old
 import { OrgActions } from "../actions";
 import { Messages } from "./messages";
+import ManagerDashboard from "./managerDashboard";
+import { Button } from "antd";
 
-export interface teamId {
-    managerName: string
-    teamId: number
-}
+// export interface teamId {
+//     managerName: string
+//     teamId: number
+// }
 
-export const ManagerProfile = ({managerName, teamId}: teamId) => {
-    const datas: any = useSelector<states.orgStateModel.OrgStateModel>(state=>state)
+export const ManagerProfile = () => {
+    const id: { id: string } = useParams()
+    console.log(id.id)
+    console.log('manager profile', Object.values(id))
+    let managerId: number = +id.id
+
+    const [managerDetails, setManagerDetails] = useState<states.teamManagerObj>();
+    const [employeesIdList, setEmployeesIdList] = useState<number[]>();
     // const actionDispatch = useDispatch<Dispatch<OrgActions.actionObj>>();        //old
+    const datas: any = useSelector<states.orgStateModel.OrgStateModel>(state=>state)
 
-    const employeesIdList: number[] =  datas.employees.map((data: states.employeeObj)=>data.id)
+    useEffect(() => {
+        const managerData: states.teamManagerObj = datas.teamManagers.find((data: states.teamManagerObj) => data.id === managerId)
+        console.log('success',managerData);
+        setManagerDetails(managerData);
+        const employeesList: number[] =  datas.employees.map((data: states.employeeObj)=>data.id)
+        setEmployeesIdList(employeesList);
+        // const managerName = managerData.name;
+        // const teamId = managerData.teamId;
+    }, [managerId]);
+    // const managerData: states.teamManagerObj = datas.teamManagers.find((data: states.teamManagerObj) => data.id === managerId)
+    // console.log('success',managerData);
+    // const managerName = managerData.name;
+    // const teamId = managerData.teamId;
+
+    // const employeesIdList: number[] =  datas.employees.map((data: states.employeeObj)=>data.id)
 
     console.log(employeesIdList)
     // const [selectedList, setSelectedList] = useState<number[]>([])   //old
@@ -44,12 +68,18 @@ export const ManagerProfile = ({managerName, teamId}: teamId) => {
         // setEmpIds([])
         // actionDispatch(addTeam(teamObj))     //old
     }
-    const value: string[] =  datas.employees.map((data: states.employeeObj)=>data.id)
+    // const value: string[] =  datas.employees.map((data: states.employeeObj)=>data.id)
     return(
         <div className="">
+            {/* <ManagerDashboard /> */}
             <div>
+                <Button
+                type="link"
+                style={{float:'right',margin:'5px'}}>
+                <Link to='/login'>Log Out</Link>
+                </Button>
                 <h2 className="text-center">Manager Profile</h2>
-                <h3>Hi {managerName}</h3>
+                <h3>Hi {managerDetails?.name}</h3>
             </div>
             <div>
                 <form onSubmit={onSubmitEmpIds}>
@@ -57,7 +87,7 @@ export const ManagerProfile = ({managerName, teamId}: teamId) => {
                     <label className="font-weight-bold">Select Employees to Send the Post</label>
                     <select className="custom-select" multiple={true} onChange={onChangeEvent} >
                     {
-                        employeesIdList.map((data: number)=>(
+                        employeesIdList && employeesIdList.map((data: number)=>(
                             <option value={data}>{data}</option>
                         ))
                     }
@@ -70,7 +100,7 @@ export const ManagerProfile = ({managerName, teamId}: teamId) => {
             </div>
             <div>
                 {
-                    messageBox && (<Messages setMessageBox={setMessageBox} teamId={teamId} selectedEmpsIds={empIds}/>)
+                    messageBox && (<Messages setMessageBox={setMessageBox} teamId={managerDetails?.teamId} selectedEmpsIds={empIds}/>)
                 }
             </div>
         </div>

@@ -1,0 +1,15 @@
+/* .MAIN_LOGIN_MENU {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    height: 70%;
+    border: 2px solid black;
+} */
+.MAIN_LOGIN_MENU {
+    display: flex;
+    align-items: center;
+    width: 28%;
+}
+.MAIN_LOGIN_MENU .ant-tabs-content-holder {
+    min-width: 100%;
+}

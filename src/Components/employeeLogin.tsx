@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
+import { Redirect, useHistory, generatePath } from "react-router-dom";
 import { states } from "../reducer";
 import EmployeeProfile from "./employeeProfile";
 import SignUpPage from "./signup";
@@ -58,6 +59,7 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                     setLoginData({id:undefined,loginPassword:''})
                     console.log('success')
                     console.log('in map', validLogin, empId)
+                    validLoginManager(data.id)
                 }else{
                     alert(`Password Incorrect`)
                     setLoginData({...loginData,loginPassword:''})
@@ -68,6 +70,19 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
     const onClickSignUpContainer = () => {
         setLoginContainer(false)
         setSignupContainer(true)
+    }
+
+    const history = useHistory();
+    const validLoginManager = (id: number) => {
+        id && history.push(generatePath("/employeeProfile/:id", { id }));
+        console.log('Employee id', id);
+        setValidLogin(true);
+    } 
+
+    if(validLogin){
+        return(
+            <Redirect to="/employeeProfile/:id" />
+        )
     }
     return (
         <div className="EMPLOYEE_LOGIN_PROFILE">
@@ -101,26 +116,26 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                     onFinish={(e)=>onSubmitEvent(e)}
                                     style={{padding:'10px'}}
                                     >
-                                    <Title level={2} className="text-center">Employee Login</Title>
+                                    {/* <Title level={2} className="text-center">Employee Login</Title> */}
                                     <Form.Item
-                                        label="Employee Id"
-                                        rules={[{ required: true, message: 'Please input your id!' }]}
+                                        // label="Employee Id"
+                                        // rules={[{ required: true, message: 'Please input your id!' }]}
                                     >
                                         <Input onChange={(e) => onChangeEvent(e)}
                                             name="id"
                                             value={loginData.id}
                                             // onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value })}} 
-                                            placeholder="Enter Manager Id" />
+                                            placeholder="Enter Employee Id" />
                                     </Form.Item>
                                     <Form.Item
-                                        label="Password"
-                                        rules={[{ required: true, message: 'Please input your password!' }]}
+                                        // label="Password"
+                                        // rules={[{ required: true, message: 'Please input your password!' }]}
                                     >
                                         <Input.Password
                                             value={loginData.loginPassword}
                                             name="loginPassword"
                                             onChange={(e) => onChangeEvent(e)}
-                                            placeholder="Enter Password" />
+                                            placeholder="Enter Employee Password" />
                                     </Form.Item>
                                     <Form.Item
                                         className="LOGIN_FORGOT_LINK">
@@ -133,17 +148,24 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                         <Button type="primary"
                                             size="large"
                                             htmlType="submit"
-                                            className="LOGIN_BUTTON"
+                                            className="EMPLOYEE_LOGIN_BUTTON"
+                                            style={{width:'100%'}}
                                             >
                                             Login
                                         </Button>
-                                        <Button type="primary"
+                                        {/* <Button type="link"
                                             size="large"
-                                            className="SIGNUP_BUTTON"
+                                            className="EMPLOYEE_SIGNUP_BUTTON"
                                             onClick={() => onClickSignUpContainer()}>
-                                            Sign Up
-                                        </Button>
+                                            Register
+                                        </Button> */}
                                     </div>
+                                    <Form.Item
+                                        className="LOGIN_FORGOT_LINK">
+                                        <a className="login-form-forgot" onClick={() => onClickSignUpContainer()}>
+                                        Register
+                                        </a>
+                                    </Form.Item>
                                 </Form>
                         </div>
                     )
@@ -155,9 +177,9 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                 {
                     // signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>)
                 }
-                {
+                {/* {
                     validLogin ? (<EmployeeProfile name={activeEmpName} id={activeEmployeeId} teamsId={activeTeamsId} />) : null
-                }
+                } */}
         </div>
     )
 }

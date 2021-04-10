@@ -20,7 +20,7 @@ export interface employeeObj {
 export interface messageObj {          //new
     content: string,
     employeesId: number[],
-    teamId: number
+    teamId: number | undefined
 }
 
 export interface orgState {

@@ -1,66 +1,32 @@
 import React, { useState } from "react";
-// import Login from 'ant-design-pro/lib/Login';
-// import { Alert, Checkbox } from 'antd';
 
-// const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+import { Tabs, Menu } from 'antd';
+import "./styles/loginDemo.css"
+import ManagerLogin from "./managerLogin";
+import EmployeeLogin from "./employeeLogin";
+const { TabPane } = Tabs;
 
-// const LoginDemo = ()=> {
-//   const [state, setState] = useState({
-//     notice: '',
-//     type: 'tab2',
-//     autoLogin: true,
-//   });
-//   const onSubmit = (err: any, values: any) => {
+const LoginDemo = () => {
+    const [showLogoutButton, setShowLogoutButton] = useState<boolean>(false)
 
-//   };
-//   const onTabChange = (key: any) => {
-//     setState({
-//         ...state,
-//       type: key,
-//     });
-//   };
-//   const changeAutoLogin = (e: any) => {
-//     setState({
-//         ...state,
-//       autoLogin: e.target.checked,
-//     });
-//   };
-//     return (
-//       <div className="login-warp">
-//         <Login
-//           defaultActiveKey={state.type}
-//           onTabChange={onTabChange}
-//           onSubmit={onSubmit}
-//         >
-//           <Tab key="tab1" tab="Account">
-//             <UserName name="username" />
-//             <Password name="password" />
-//           </Tab>
-//           <Tab key="tab2" tab="Mobile">
-//           <UserName onChange name="username" />
-//           <Password name="password" />         
-//             </Tab>
-//           <div>
-//             <Checkbox checked={state.autoLogin} onChange={changeAutoLogin}>
-//               Keep me logged in
-//             </Checkbox>
-//             <a style={{ float: 'right' }} href="">
-//               Forgot password
-//             </a>
-//           </div>
-//           <Submit>Login</Submit>
-//           <div>
-//             Other login methods
-//             <span className="icon icon-alipay" />
-//             <span className="icon icon-taobao" />
-//             <span className="icon icon-weibo" />
-//             <a style={{ float: 'right' }} href="">
-//               Register
-//             </a>
-//           </div>
-//         </Login>
-//       </div>
-//     );
-// }
+    return (
 
-// export default LoginDemo;
+        <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            {/* <Menu className="MAIN_LOGIN_MENU" theme="light" mode="horizontal" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+                <ManagerLogin showLogoutButton={setShowLogoutButton}/>
+            </Menu.Item>
+            <Menu.Item key="2">Employee</Menu.Item>
+        </Menu> */}
+        <Tabs size="large" className="MAIN_LOGIN_MENU" defaultActiveKey={''}>
+                <TabPane tab="Manager" key="1" style={{minWidth:'100%'}}>
+                <ManagerLogin showLogoutButton={setShowLogoutButton}/>
+         </TabPane>
+                <TabPane tab="Employee" key="2" style={{minWidth:'100%'}}>
+                <EmployeeLogin showLogoutButton={setShowLogoutButton}/>
+         </TabPane>
+        </Tabs>
+        </div>
+    )
+}
+export default LoginDemo;

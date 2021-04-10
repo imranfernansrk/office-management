@@ -95,6 +95,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
             {
                 managerProfile && (
                     <Modal title="Create New Account" visible={signupContainer}
+                        onCancel={()=>showLoginContainer()}
                         footer={
                             [<Button type="primary"
                                 size="large"
@@ -143,6 +144,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
             {
                 employeeProfile && (
                     <Modal title="Create New Account" visible={signupContainer}
+                    onCancel={()=>showLoginContainer()}
                     footer={
                         [<Button type="primary"
                             size="large"
