@@ -1,71 +1,53 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, useHistory, generatePath } from "react-router-dom";
 import { Models } from "../../models";
 import SignUpPage from "../Signup/Signup";
+import { LoginTitle, LoginString } from "../../constants";
 
 import './styles.css'
 
+import { Form, Input, Button, notification } from "antd";
 
-import { Typography, Form, Input, Button, Modal, notification } from "antd";
-const { Title } = Typography;
-
-interface Props {
-    showLogoutButton: Dispatch<SetStateAction<boolean>>
-}
-
-const EmployeeLogin = ({showLogoutButton}: Props) => {
+const EmployeeLogin = () => {
     const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state => state)
 
-    const [loginData, setLoginData] = useState<Models.login>({
-        id: undefined,
+    const [loginData, setLoginData] = useState<Models.Login>({
+        id: '',
         loginPassword: ''
     })
-    const [validLogin, setValidLogin] = useState<boolean>(false)
-    const [activeEmployeeId, setActiveEmployeeId] = useState<number>(0)
-    const [activeTeamsId, setActiveTeamsId] = useState<number[] | undefined>([])
-    const [activeEmpName, setActiveEmpName] = useState<string>('')
+    const [validLogin, setValidLogin] = useState<boolean>(false);
+    const [validEmployeeId, setValidEmployeeId] = useState<string>('');
     const [loginContainer, setLoginContainer] = useState<boolean>(true)
     const [signupContainer, setSignupContainer] = useState<boolean>(false)
 
     const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: string = event.target.value
-        console.log(value)
-        if (fieldName == 'id') {
-            setLoginData({ ...loginData, [fieldName]: +value })
-        } else {
-            setLoginData({ ...loginData, [fieldName]: value })
-        }
-        console.log([fieldName],value)
+        setLoginData({ ...loginData, [fieldName]: value })
     }
     const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
         let empDatas: Models.TeamEmployeeObject[] = datas.employees
 
         console.log(loginData)
         console.log(empDatas)
-        setValidLogin(false)
-        empDatas.map((data: Models.TeamEmployeeObject) => {
-            if (data.id === loginData.id) {
-                if (data.loginPassword === loginData.loginPassword) {
-                    setValidLogin(true)
-                    let empId: number = data.id
-                    setActiveEmployeeId(empId)
-                    setActiveTeamsId(data.teamsId)
+        empDatas.map((data: Models.TeamEmployeeObject, index:number) => {
+            let userValid: boolean = false;
+            if (data.id == loginData.id) {
+                if (data.loginPassword == loginData.loginPassword) {
+                    userValid = true;
+                    let empId: string = data.id;
                     setLoginContainer(false)
-                    setActiveEmpName(data.name)
-                    showLogoutButton(true)
-                    // alert(`Login successfully`)
-                    successNotification(`Authentication success`);
-                    setLoginData({id:undefined,loginPassword:''})
-                    console.log('success')
-                    console.log('in map', validLogin, empId)
+                    successNotification(LoginString.AUTHENTICATION_SUCCESS);
+                    setLoginData({id:'',loginPassword:''})
                     validLoginManager(data.id)
                 }else{
-                    // alert(`Password Incorrect`)
-                    errorNotification(`Password Incorrect`);
+                    errorNotification(LoginString.PASSWORD_INCORRECT);
                     setLoginData({...loginData,loginPassword:''})
                 }
+            }
+            if((empDatas.length-1) == index && !userValid){
+                errorNotification(LoginString.USERNAME_NOT_EXISTED);
             }
         });
     }
@@ -91,15 +73,17 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
     }
 
     const history = useHistory();
-    const validLoginManager = (id: number) => {
-        id && history.push(generatePath("/employeeProfile/:id", { id }));
+    const validLoginManager = (id: string) => {
+        // id && history.push(generatePath("/employeeProfile/:id", { id }));
         console.log('Employee id', id);
+        setValidEmployeeId(id);
         setValidLogin(true);
     } 
 
     if(validLogin){
-        return(
-            <Redirect to="/employeeProfile/:id" />
+        const url = `/employeeProfile/${validEmployeeId}`
+        return (
+            <Redirect to={url} />
         )
     }
     return (
@@ -110,8 +94,7 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                 <Form
                                     name="normal_login"
                                     className="login-form"
-                                    onFinish={(e)=>onSubmitEvent(e)}
-                                    style={{padding:'10px'}}>
+                                    onFinish={(e)=>onSubmitEvent(e)}>
                                     <Form.Item>
                                         <Input onChange={(e) => onChangeEvent(e)}
                                             name="id"
@@ -128,7 +111,7 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                     <Form.Item
                                         className="login-form-external-link">
                                         <a className="login-form-forgot" href="">
-                                            Forgot password
+                                            {LoginTitle.FORGOT_PASSWORD}
                                         </a>
                                     </Form.Item>
                                     <div
@@ -136,10 +119,8 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                         <Button type="primary"
                                             size="large"
                                             htmlType="submit"
-                                            className="form-login-button"
-                                            style={{width:'100%'}}
-                                            >
-                                            Login
+                                            className="form-login-button">
+                                            {LoginTitle.LOG_IN}
                                         </Button>
                                     </div>
                                     <Form.Item
@@ -147,7 +128,7 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                         <a 
                                         className="login-form-forgot"
                                         onClick={() => onClickSignUpContainer()}>
-                                        Register
+                                        {LoginTitle.REGISTER}
                                         </a>
                                     </Form.Item>
                                 </Form>

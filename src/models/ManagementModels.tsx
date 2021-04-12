@@ -1,19 +1,19 @@
 export interface TeamManagerObject {
     name: string,
-    id: number,
+    id: string,
     loginPassword: string,
     teamId: number,
 }
 export interface TeamEmployeeObject {
     name: string,
-    id: number,
+    id: string,
     loginPassword: string,
     teamsId?: number[]
 }
 
 export interface MessagesObject {          //new
     content: string,
-    employeesId: number[],
+    employeesId: string[],
     teamId: number | undefined
 }
 
@@ -23,9 +23,9 @@ export interface RootState {
     messages: MessagesObject[]
 }
 
-export interface login {
-    id: number | undefined,
-    loginPassword: ''
+export interface Login {
+    id: string,
+    loginPassword: string
 }
 
 export namespace RootStateModels {

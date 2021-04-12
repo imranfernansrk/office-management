@@ -24,13 +24,13 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
 
     const [managerData, setManagerData] = useState<Models.TeamManagerObject>({
         name: '',
-        id: 0,
+        id: '',
         loginPassword: '',
         teamId: 0
     })
     const [employeeData, setEmployeeData] = useState<Models.TeamEmployeeObject>({
         name: '',
-        id: 0,
+        id: '',
         loginPassword: '',
         teamsId: []
     })
@@ -77,7 +77,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
     }
 
     return (
-        <div className="">
+        <div>
             {
                 managerProfile && (
                     <Modal title="Create New Account" visible={signupContainer}
@@ -85,7 +85,6 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                         footer={
                             [<Button type="primary"
                                 size="middle"
-                                className="close-signup-button"
                                 onClick={() => showLoginContainer()}>
                                 Close
                             </Button>,
@@ -99,8 +98,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                         <ManagerSignup
                             onSubmitMngr={onSubmitMngr}
                             onChangeEventMngr={onChangeEventMngr}
-                            onChangeEventNumMngr={onChangeEventNumMngr}
-                            showLoginContainer={showLoginContainer} />
+                            onChangeEventNumMngr={onChangeEventNumMngr}/>
                     </Modal>
                 )
             }
@@ -111,7 +109,6 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                         footer={
                             [<Button type="primary"
                                 size="middle"
-                                className="close-signup-button"
                                 onClick={() => showLoginContainer()}>
                                 Close
                         </Button>,
@@ -125,8 +122,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                         <EmployeeSignup
                             onChangeEventEmp={onChangeEventEmp}
                             onChangeEventNumEmp={onChangeEventNumEmp}
-                            onSubmitEmp={onSubmitEmp}
-                            showLoginContainer={showLoginContainer} />
+                            onSubmitEmp={onSubmitEmp} />
                     </Modal>
                 )
             }

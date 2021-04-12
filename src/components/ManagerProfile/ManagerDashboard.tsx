@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Layout, Menu, Breadcrumb, Typography } from 'antd';
+import { ManagerProfileString, ManagerProfileTitle } from "../../constants";
+import { Layout, Menu, Breadcrumb } from 'antd';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -7,11 +8,10 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import "./styles/managerDashboard.css"
+import "./styles.css"
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-const { Title } = Typography;
 
 const ManagerDashboard = () => {
     const [collapsed, setCollapsed] = useState<boolean>(false)
@@ -22,45 +22,32 @@ const ManagerDashboard = () => {
   };
 
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout className="manager-dashboard-layout">
         <Sider collapsible collapsed={collapsed} onCollapse={(e)=>onCollapse(e)}>
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" icon={<UserOutlined />}>
-              Username
+              {ManagerProfileTitle.USERNAME}
             </Menu.Item>
             <Menu.Item key="2" icon={<PieChartOutlined />}>
-              Option 1
+              {ManagerProfileTitle.OPTION_1}
             </Menu.Item>
-            <Menu.Item key="3" icon={<DesktopOutlined />}>
-              Option 2
-            </Menu.Item>
-            {/* <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu> */}
-            <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+            <SubMenu key="sub1" icon={<TeamOutlined />} title="Team">
+              <Menu.Item key="3">{ManagerProfileTitle.TEAM_1}</Menu.Item>
             </SubMenu>
-            <Menu.Item key="9" icon={<FileOutlined />}>
-              Files
+            <Menu.Item key="4" icon={<FileOutlined />}>
+              {ManagerProfileTitle.TEAM_1}
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          <Header className="site-layout-background"/>
+          <Content className="header-content">
+            <Breadcrumb className="bread-crumb-container" >
+              <Breadcrumb.Item>{ManagerProfileTitle.USER}</Breadcrumb.Item>
             </Breadcrumb>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-              Bill is a cat.
-            </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer>{ManagerProfileString.FOOTER_CONTENT}</Footer>
         </Layout>
       </Layout>
     );

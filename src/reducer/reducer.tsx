@@ -5,7 +5,7 @@ const initialState: Models.RootState = {
     teamManagers: [
         {
             name: 'Shah Rukh Khan',
-            id: 1,
+            id: '1',
             loginPassword: '123',
             teamId: 100,
         }
@@ -13,7 +13,7 @@ const initialState: Models.RootState = {
     employees: [
         {
             name: 'Imran Basha',
-            id: 10,
+            id: '10',
             loginPassword: '123',
             teamsId: []
         }

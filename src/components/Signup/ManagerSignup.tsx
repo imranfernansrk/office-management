@@ -6,17 +6,15 @@ import "./styles.css";
 interface Props {
     onSubmitMngr: any,
     onChangeEventMngr: any,
-    showLoginContainer: any,
     onChangeEventNumMngr: any
 }
 
-const ManagerSignup = ({ onSubmitMngr, onChangeEventMngr, showLoginContainer, onChangeEventNumMngr }: Props) => {
+const ManagerSignup = ({ onSubmitMngr, onChangeEventMngr, onChangeEventNumMngr }: Props) => {
     return (
         <Form
             name="manager_register"
-            className=""
-            onFinish={(e) => onSubmitMngr(e)}
-            style={{ padding: '10px' }}>
+            className="form-signup"
+            onFinish={(e) => onSubmitMngr(e)}>
             <Form.Item
                 label="Manager Name"
                 rules={[{ required: true, message: 'Please input your name!' }]}>

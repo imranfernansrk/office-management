@@ -2,13 +2,14 @@ import React, { useState, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import { Models } from "../../models";
 import { ManagementActions, postMessagesData } from "../../actions";
+import { MessagesTitle } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
 import { notification } from "antd";
 
 export interface teamId {
     setMessageBox: Dispatch<SetStateAction<boolean>>
     teamId: number | undefined
-    selectedEmpsIds: number[]
+    selectedEmpsIds: string[]
 }
 
 export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
@@ -52,7 +53,7 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
         <div className="mt-3">
             <form onSubmit={onSubmitMessage}>
                 <TextArea className="mr-3" name="content" onChange={(e)=>onChangeEvent(e)}/>
-                <button className="btn btn-md btn-success mt-2" type="submit" onSubmit={onSubmitMessage}>Send Message</button>
+                <button className="btn btn-md btn-success mt-2" type="submit" onSubmit={onSubmitMessage}>{MessagesTitle.SEND_MESSAGE}</button>
             </form>
         </div>
     )

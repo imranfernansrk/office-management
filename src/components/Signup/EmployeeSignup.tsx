@@ -6,16 +6,14 @@ import { Form, Input } from "antd";
 interface Props {
     onSubmitEmp: any,
     onChangeEventEmp: any,
-    onChangeEventNumEmp: any,
-    showLoginContainer: any
+    onChangeEventNumEmp: any
 }
-const EmployeeSignup = ({ onSubmitEmp, onChangeEventEmp, onChangeEventNumEmp, showLoginContainer }: Props) => {
+const EmployeeSignup = ({ onSubmitEmp, onChangeEventEmp, onChangeEventNumEmp }: Props) => {
     return (
         <Form
-            name="manager_register"
-            className=""
-            onFinish={(e) => onSubmitEmp(e)}
-            style={{ padding: '10px' }}>
+            name="employee_register"
+            className="form-signup"
+            onFinish={(e) => onSubmitEmp(e)}>
             <Form.Item
                 label="Emplyee Name"
                 rules={[{ required: true, message: 'Please input your name!' }]}>

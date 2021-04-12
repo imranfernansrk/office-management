@@ -1,0 +1,16 @@
+.manager-logout-link {
+    float: right;
+    margin: 5px;
+}
+.manager-dashboard-layout {
+    min-height: 100vh;
+}
+.site-layout-background {
+    padding: 0;
+}
+.header-content{
+    margin: 0 16px;
+}
+.bread-crumb-container {
+    margin: 16px 0;
+}

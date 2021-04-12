@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { EmployeeProfileString } from "../../constants";
 import { Models } from "../../models";
 import EmployeeProfileBody from "./EmployeeProfileBody";
 
@@ -8,7 +9,7 @@ const EmployeeProfile = () => {
     const emp: { id: string } = useParams()
     console.log(emp.id)
     console.log('manager profile', Object.values(emp.id))
-    let empId: number = +emp.id
+    let empId: string = emp.id;
 
     const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state => state)
 
@@ -29,8 +30,8 @@ const EmployeeProfile = () => {
     const messagesList: JSX.Element = datas.messages.map((data: Models.MessagesObject, index: number) => {
         if (data.employeesId.includes(empId))
             return (<ul className="list-unstyled mt-3">
-                <li>Message From Team Id : {data.teamId}</li>
-                <li>Content : {data.content}</li>
+                <li>{EmployeeProfileString.MESSAGE_FROM_TEAM_ID} {data.teamId}</li>
+                <li>{EmployeeProfileString.CONTENT} {data.content}</li>
             </ul>)
     }
     );

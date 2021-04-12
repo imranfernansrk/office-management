@@ -7,16 +7,14 @@ import "./styles.css"
 
 const { TabPane } = Tabs;
 export const Login = () => {
-    const [showLogoutButton, setShowLogoutButton] = useState<boolean>(false)
-
     return (
-        <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div className="login-container">
         <Tabs size="large" className="login-page-menu" defaultActiveKey={''}>
-                <TabPane tab="Manager" key="1" style={{minWidth:'100%'}}>
-                <ManagerLogin showLogoutButton={setShowLogoutButton}/>
+                <TabPane tab="Manager" key="1" className="login-tab-pane">
+                <ManagerLogin />
          </TabPane>
-                <TabPane tab="Employee" key="2" style={{minWidth:'100%'}}>
-                <EmployeeLogin showLogoutButton={setShowLogoutButton}/>
+                <TabPane tab="Employee" key="2" className="login-tab-pane">
+                <EmployeeLogin />
          </TabPane>
         </Tabs>
         </div>
