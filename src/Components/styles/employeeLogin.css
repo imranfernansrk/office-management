@@ -23,7 +23,7 @@
   }
   .EMPLOYEE_LOGIN_BUTTON {
     display: flex; 
-    justify-content: 'center';
+    justify-content: center;
     /* height: '40px'; */
      width: '100%';
   }
