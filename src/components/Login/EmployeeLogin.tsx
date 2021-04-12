@@ -1,13 +1,13 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, useHistory, generatePath } from "react-router-dom";
-import { states } from "../reducer";
-import EmployeeProfile from "./employeeProfile";
-import SignUpPage from "./signup";
+import { Models } from "../../models";
+import SignUpPage from "../Signup/Signup";
 
-import './styles/employeeLogin.css'
+import './styles.css'
 
-import { Typography, Form, Input, Button, Modal } from "antd";
+
+import { Typography, Form, Input, Button, Modal, notification } from "antd";
 const { Title } = Typography;
 
 interface Props {
@@ -15,9 +15,9 @@ interface Props {
 }
 
 const EmployeeLogin = ({showLogoutButton}: Props) => {
-    const datas: any = useSelector<states.orgStateModel.OrgStateModel>(state => state)
+    const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state => state)
 
-    const [loginData, setLoginData] = useState<states.login>({
+    const [loginData, setLoginData] = useState<Models.login>({
         id: undefined,
         loginPassword: ''
     })
@@ -40,12 +40,12 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
         console.log([fieldName],value)
     }
     const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
-        let empDatas: states.employeeObj[] = datas.employees
+        let empDatas: Models.TeamEmployeeObject[] = datas.employees
 
         console.log(loginData)
         console.log(empDatas)
         setValidLogin(false)
-        empDatas.map((data: states.employeeObj) => {
+        empDatas.map((data: Models.TeamEmployeeObject) => {
             if (data.id === loginData.id) {
                 if (data.loginPassword === loginData.loginPassword) {
                     setValidLogin(true)
@@ -55,16 +55,34 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                     setLoginContainer(false)
                     setActiveEmpName(data.name)
                     showLogoutButton(true)
-                    alert(`Login successfully`)
+                    // alert(`Login successfully`)
+                    successNotification(`Authentication success`);
                     setLoginData({id:undefined,loginPassword:''})
                     console.log('success')
                     console.log('in map', validLogin, empId)
                     validLoginManager(data.id)
                 }else{
-                    alert(`Password Incorrect`)
+                    // alert(`Password Incorrect`)
+                    errorNotification(`Password Incorrect`);
                     setLoginData({...loginData,loginPassword:''})
                 }
             }
+        });
+    }
+    const successNotification = (message: string) => {
+        notification.config({
+            placement: 'topLeft'
+        });
+        notification['success']({
+            message: message,
+        });
+    }
+    const errorNotification = (message: string) => {
+        notification.config({
+            placement: 'topLeft'
+        });
+        notification['error']({
+            message: message,
         });
     }
     const onClickSignUpContainer = () => {
@@ -85,52 +103,22 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
         )
     }
     return (
-        <div className="EMPLOYEE_LOGIN_PROFILE">
+        <div className="employee-login-profile">
                 {
                     loginContainer && (
-                        // <div>
-                        //     <div>
-                        //         <h2 className="text-center">Employee Login</h2>
-                        //     </div>
-                        //     <div>
-                        //         <form className="form" onSubmit={onSubmitEvent}>
-                        //             <div className="form-group">
-                        //                 <label className="font-weight-bold">Enter Employee Id</label>
-                        //                 <input className="form-control" type="text" name="id" onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value }) }} />
-                        //             </div>
-                        //             <div className="form-group">
-                        //                 <label className="font-weight-bold">Enter Password</label>
-                        //                 <input className="form-control" type="password" name="loginPassword" onChange={onChangeEvent} />
-                        //             </div>
-                        //             <div>
-                        //                 <button className="btn btn-primary mr-2" type="submit" onSubmit={onSubmitEvent}>Login</button>
-                        //                 <button className="btn btn-outline-primary" type="submit" onClick={onClickSignUpContainer}>Sign Up</button>
-                        //             </div>
-                        //         </form>
-                        //     </div>
-                        // </div>
-                        <div className="LOGIN_FORM_CONTAINER">
+                        <div className="login-form-container">
                                 <Form
                                     name="normal_login"
-                                    className="LOGIN_FORM"
+                                    className="login-form"
                                     onFinish={(e)=>onSubmitEvent(e)}
-                                    style={{padding:'10px'}}
-                                    >
-                                    {/* <Title level={2} className="text-center">Employee Login</Title> */}
-                                    <Form.Item
-                                        // label="Employee Id"
-                                        // rules={[{ required: true, message: 'Please input your id!' }]}
-                                    >
+                                    style={{padding:'10px'}}>
+                                    <Form.Item>
                                         <Input onChange={(e) => onChangeEvent(e)}
                                             name="id"
                                             value={loginData.id}
-                                            // onChange={(event: React.ChangeEvent<HTMLInputElement>) => { setLoginData({ ...loginData, id: +event.target.value })}} 
                                             placeholder="Enter Employee Id" />
                                     </Form.Item>
-                                    <Form.Item
-                                        // label="Password"
-                                        // rules={[{ required: true, message: 'Please input your password!' }]}
-                                    >
+                                    <Form.Item>
                                         <Input.Password
                                             value={loginData.loginPassword}
                                             name="loginPassword"
@@ -138,31 +126,27 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                                             placeholder="Enter Employee Password" />
                                     </Form.Item>
                                     <Form.Item
-                                        className="LOGIN_FORGOT_LINK">
+                                        className="login-form-external-link">
                                         <a className="login-form-forgot" href="">
                                             Forgot password
                                         </a>
                                     </Form.Item>
                                     <div
-                                        className="LOGIN_FORM_BUTTONS">
+                                        className="login-form-buttons">
                                         <Button type="primary"
                                             size="large"
                                             htmlType="submit"
-                                            className="EMPLOYEE_LOGIN_BUTTON"
+                                            className="form-login-button"
                                             style={{width:'100%'}}
                                             >
                                             Login
                                         </Button>
-                                        {/* <Button type="link"
-                                            size="large"
-                                            className="EMPLOYEE_SIGNUP_BUTTON"
-                                            onClick={() => onClickSignUpContainer()}>
-                                            Register
-                                        </Button> */}
                                     </div>
                                     <Form.Item
-                                        className="LOGIN_FORGOT_LINK">
-                                        <a className="login-form-forgot" onClick={() => onClickSignUpContainer()}>
+                                        className="login-form-external-link">
+                                        <a 
+                                        className="login-form-forgot"
+                                        onClick={() => onClickSignUpContainer()}>
                                         Register
                                         </a>
                                     </Form.Item>
@@ -173,13 +157,6 @@ const EmployeeLogin = ({showLogoutButton}: Props) => {
                 {
                     signupContainer && <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>
                 }
-
-                {
-                    // signupContainer && (<SignUpPage setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>)
-                }
-                {/* {
-                    validLogin ? (<EmployeeProfile name={activeEmpName} id={activeEmployeeId} teamsId={activeTeamsId} />) : null
-                } */}
         </div>
     )
 }

@@ -1,15 +1,12 @@
-.SIGNUP_CONTAINER {
+/* .sigup-container {
     height: 100%;
     display: flex;
     justify-content: center;
 }
-.SIGNUP_FOOTER_BUTTONS {
+.signup-footer-button {
     display: flex;
     justify-content: flex-end;
 }
-/* .CREATE_BUTTON {
-    margin: 5px;
-} */
-.CLOSE_SIGNUP_BUTTON {
+.close-signup-button {
     margin-right: 5px;
-}
+} */
