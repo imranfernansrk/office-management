@@ -1,7 +1,7 @@
 import React, { useState, SetStateAction, Dispatch } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Models } from "../../models";
-import { postEmpolyeeData, ManagementActions, postManagerData } from "../../actions";
+import { postEmpolyeeData, postManagerData, ActionObject } from "../../actions";
 import ManagerSignup from "./ManagerSignup";
 import EmployeeSignup from "./EmployeeSignup";
 import { Button, Modal } from "antd";
@@ -11,22 +11,21 @@ import "./styles.css";
 
 interface Props {
     signupContainer: boolean,
-    setLoginContainer: Dispatch<SetStateAction<boolean>>,
     setSignupContainer: Dispatch<SetStateAction<boolean>>,
     managerProfile: boolean,
     employeeProfile: boolean
 }
 
-const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, managerProfile, employeeProfile }: Props) => {
+const SignUpPage = ({ signupContainer, setSignupContainer, managerProfile, employeeProfile }: Props) => {
     const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state => state)
 
-    const actionDispatch = useDispatch<Dispatch<ManagementActions.ActionObject>>();
+    const actionDispatch = useDispatch<Dispatch<ActionObject>>();
 
     const [managerData, setManagerData] = useState<Models.TeamManagerObject>({
         name: '',
         id: '',
         loginPassword: '',
-        teamId: 0
+        teamId: ''
     })
     const [employeeData, setEmployeeData] = useState<Models.TeamEmployeeObject>({
         name: '',
@@ -40,21 +39,9 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
         setEmployeeData({ ...employeeData, [fieldName]: value })
         console.log(fieldName, value)
     }
-    const onChangeEventNumEmp = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const fieldName = event.target.name
-        let value: number = +event.target.value
-        setEmployeeData({ ...employeeData, [fieldName]: value })
-        console.log(fieldName, value)
-    }
     const onChangeEventMngr = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
         let value: string = event.target.value
-        setManagerData({ ...managerData, [fieldName]: value })
-        console.log(fieldName, value)
-    }
-    const onChangeEventNumMngr = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const fieldName = event.target.name
-        let value: number = +event.target.value
         setManagerData({ ...managerData, [fieldName]: value })
         console.log(fieldName, value)
     }
@@ -72,7 +59,6 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
         showLoginContainer()
     }
     const showLoginContainer = () => {
-        // setLoginContainer(true)
         setSignupContainer(false)
     }
 
@@ -96,9 +82,10 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                             </Button>
                             ]}>
                         <ManagerSignup
+                            managerData={managerData}
                             onSubmitMngr={onSubmitMngr}
                             onChangeEventMngr={onChangeEventMngr}
-                            onChangeEventNumMngr={onChangeEventNumMngr}/>
+                            signFor="manager" />
                     </Modal>
                 )
             }
@@ -121,8 +108,9 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
                             ]}>
                         <EmployeeSignup
                             onChangeEventEmp={onChangeEventEmp}
-                            onChangeEventNumEmp={onChangeEventNumEmp}
-                            onSubmitEmp={onSubmitEmp} />
+                            onSubmitEmp={onSubmitEmp}
+                            employeeData={employeeData}
+                            signFor="employee" />
                     </Modal>
                 )
             }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { Tabs } from 'antd';
 import ManagerLogin from "./ManagerLogin";
 import EmployeeLogin from "./EmployeeLogin";
 
+import { Tabs } from 'antd';
 import "./styles.css"
 
 const { TabPane } = Tabs;

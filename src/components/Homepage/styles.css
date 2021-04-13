@@ -34,3 +34,6 @@
 .footer-content {
     text-align: center;
 }
+.get-started-link {
+    text-decoration: none !important;
+}

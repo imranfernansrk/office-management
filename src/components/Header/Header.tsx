@@ -18,7 +18,7 @@ const Header = () => {
             <Menu.Item key="2">{HeaderTitle.SERVICES}</Menu.Item>
             <Menu.Item key="3">{HeaderTitle.CONTACT}</Menu.Item>
             <Menu.Item key="4">{HeaderTitle.ABOUT_US}</Menu.Item>
-            <Menu.Item key="5"><Link to="/login">{HeaderTitle.Get_STARTED}</Link></Menu.Item>
+            <Menu.Item key="5"><Link className="get-started-link" to="/login">{HeaderTitle.Get_STARTED}</Link></Menu.Item>
         </Menu>
     )
 };

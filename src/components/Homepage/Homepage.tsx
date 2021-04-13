@@ -15,9 +15,9 @@ const Homepage = () => {
     return (
         <Layout >
             <Layout className="header-content-layout">
-                <Header className="homepage-header">
+                {/* <Header className="homepage-header">
                     <HeaderTab />
-                </Header>
+                </Header> */}
                 <Content className="homepage-content">
                     <MainContent />
                 </Content>

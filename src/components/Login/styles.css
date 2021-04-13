@@ -44,3 +44,6 @@
   .login-tab-pane {
       min-width: 100%;
   }
+  .login-form-forgot {
+    text-decoration: none !important;
+  }

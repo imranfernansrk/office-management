@@ -1,15 +1,15 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import { Models } from "../../models";
-import { ManagementActions, postMessagesData } from "../../actions";
+import { ActionObject, postMessagesData } from "../../actions";
 import { MessagesTitle } from "../../constants";
 
-import { notification, Input, message } from "antd";
+import { notification, Input } from "antd";
 const { TextArea } = Input;
 
 export interface teamId {
     setMessageBox: Dispatch<SetStateAction<boolean>>
-    teamId: number | undefined
+    teamId: string | undefined
     selectedEmpsIds: string[]
 }
 
@@ -17,7 +17,7 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
     console.log(teamId)
     console.log(selectedEmpsIds)
 
-    const actionDispatch = useDispatch<Dispatch<ManagementActions.ActionObject>>();
+    const actionDispatch = useDispatch<Dispatch<ActionObject>>();
 
     const [messageData, setMessageData] = useState<Models.MessagesObject>({
         employeesId: [...selectedEmpsIds],
@@ -27,7 +27,6 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
     console.log('After the setState',messageData)
 
     const onChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        // const fieldName = event.target.name;
         let value: string = event.target.value;
 
         setMessageData({...messageData, ["content"]:value})

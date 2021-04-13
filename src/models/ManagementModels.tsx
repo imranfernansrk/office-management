@@ -2,19 +2,19 @@ export interface TeamManagerObject {
     name: string,
     id: string,
     loginPassword: string,
-    teamId: number,
+    teamId: string,
 }
 export interface TeamEmployeeObject {
     name: string,
     id: string,
     loginPassword: string,
-    teamsId?: number[]
+    teamsId?: string[]
 }
 
 export interface MessagesObject {          //new
     content: string,
     employeesId: string[],
-    teamId: number | undefined
+    teamId: string | undefined
 }
 
 export interface RootState {

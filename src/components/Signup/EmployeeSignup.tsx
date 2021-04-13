@@ -1,42 +1,28 @@
 import React from "react";
+import SignupForm from "./SignupForm";
+import { Models } from "../../models";
+import { SignupString } from "../../constants";
 
 import "./styles.css";
-import { Form, Input } from "antd";
 
 interface Props {
+    signFor: string,
+    employeeData: Models.TeamEmployeeObject,
     onSubmitEmp: any,
     onChangeEventEmp: any,
-    onChangeEventNumEmp: any
 }
-const EmployeeSignup = ({ onSubmitEmp, onChangeEventEmp, onChangeEventNumEmp }: Props) => {
+const EmployeeSignup = ({ onSubmitEmp, onChangeEventEmp, signFor, employeeData }: Props) => {
     return (
-        <Form
-            name="employee_register"
-            className="form-signup"
-            onFinish={(e) => onSubmitEmp(e)}>
-            <Form.Item
-                label="Emplyee Name"
-                rules={[{ required: true, message: 'Please input your name!' }]}>
-                <Input onChange={(e) => onChangeEventEmp(e)}
-                    name="name"
-                    placeholder="Enter Employee Name" />
-            </Form.Item>
-            <Form.Item
-                label="Employee Id"
-                rules={[{ required: true, message: 'Please input your id!' }]}>
-                <Input onChange={(e) => onChangeEventNumEmp(e)}
-                    name="id"
-                    placeholder="Enter Employee Id" />
-            </Form.Item>
-            <Form.Item
-                label="Password"
-                rules={[{ required: true, message: 'Please input your password!' }]}>
-                <Input.Password
-                    name="loginPassword"
-                    onChange={(e) => onChangeEventEmp(e)}
-                    placeholder="Enter Password" />
-            </Form.Item>
-        </Form>
+        <SignupForm
+        onSubmitEvent={onSubmitEmp}
+        onChangeEvent={onChangeEventEmp}
+        signFor={signFor}
+        newUserData={employeeData}
+        labelId={SignupString.EMPLOYEE_ID}
+        placeholderId={SignupString.ENTER_EMPLOYEE_ID}
+        labelName={SignupString.EMPLOYEE_NAME}
+        placeholderName={SignupString.ENTER_EMPLOYEE_NAME}
+        formName={SignupString.EMPLOYEE_FORM_NAME} />
     )
 }
 export default EmployeeSignup;

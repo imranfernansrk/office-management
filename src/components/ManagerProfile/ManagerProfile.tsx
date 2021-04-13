@@ -1,37 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, Redirect, useParams } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Models } from "../../models";
 import { Messages } from "../Messages";
 import { ManagerProfileString, ManagerProfileTitle } from "../../constants";
-import ManagerDashboard from "./ManagerDashboard";
 
 import "./styles.css";
 import { Button } from "antd";
 
 export const ManagerProfile = () => {
-    // const id: { id: string } = useParams()
-    // console.log(id.id)
-    // console.log('manager profile', Object.values(id))
-    // let managerId: string = id.id
-
     const [managerDetails, setManagerDetails] = useState<Models.TeamManagerObject>();
     const [employeesIdList, setEmployeesIdList] = useState<number[]>();
     const [userLogout, setUserLogout] = useState<boolean>(false);
-    const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state=>state);
+    const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state => state);
 
     useEffect(() => {
-        // const managerData: Models.TeamManagerObject = datas.teamManagers.find((data: Models.TeamManagerObject) => data.id == managerId)
-        // console.log('success',managerData);
-        // setManagerDetails(managerData);
         let managerObject = sessionStorage.getItem('managerAuth');
-        if(managerObject != null){
+        if (managerObject != null) {
             const managerData = JSON.parse(managerObject);
             setManagerDetails(managerData);
-        }else{
+        } else {
             setUserLogout(true);
         }
-        const employeesList: number[] =  datas.employees.map((data: Models.TeamEmployeeObject)=>data.id)
+        const employeesList: number[] = datas.employees.map((data: Models.TeamEmployeeObject) => data.id)
         setEmployeesIdList(employeesList);
     }, []);
 
@@ -47,25 +38,24 @@ export const ManagerProfile = () => {
         setEmpIds(value);
         console.log(empIds)
     }
-    
+
     const [messageBox, setMessageBox] = useState<boolean>(false)
     const onSubmitEmpIds = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
         event.preventDefault()
         setMessageBox(true)
     }
-    if(userLogout){
+    if (userLogout) {
         return (<Redirect to="/login" />)
     }
-    return(
+    return (
         <div className="">
             {/* <ManagerDashboard /> */}
             <div>
                 <Button
-                type="link"
-                className="manager-logout-link"
-                onClick={()=>clearLoggedUser()}>
-                {/* <Link to='/login'>{ManagerProfileTitle.LOG_OUT}</Link> */}
-                {ManagerProfileTitle.LOG_OUT}
+                    type="link"
+                    className="manager-logout-link"
+                    onClick={() => clearLoggedUser()}>
+                    {ManagerProfileTitle.LOG_OUT}
                 </Button>
                 <h2 className="text-center">{ManagerProfileString.MANAGER_PROFILE}</h2>
                 <h3>{ManagerProfileString.USER_NAME} : {managerDetails?.name}</h3>
@@ -73,14 +63,14 @@ export const ManagerProfile = () => {
             <div>
                 <form onSubmit={onSubmitEmpIds}>
                     <div>
-                    <label className="font-weight-bold">{ManagerProfileString.SELECT_EMPLOYEES_ID}</label>
-                    <select className="custom-select" multiple={true} onChange={onChangeEvent} >
-                    {
-                        employeesIdList && employeesIdList.map((data: number)=>(
-                            <option value={data}>{data}</option>
-                        ))
-                    }
-                    </select>
+                        <label className="font-weight-bold">{ManagerProfileString.SELECT_EMPLOYEES_ID}</label>
+                        <select className="custom-select" multiple={true} onChange={onChangeEvent} >
+                            {
+                                employeesIdList && employeesIdList.map((data: number) => (
+                                    <option value={data}>{data}</option>
+                                ))
+                            }
+                        </select>
                     </div>
                     <div className="mt-3">
                         <button className="btn btn-light btn-outline-dark" type="submit" onSubmit={onSubmitEmpIds}>{ManagerProfileTitle.SELECT}</button>
@@ -89,7 +79,7 @@ export const ManagerProfile = () => {
             </div>
             <div>
                 {
-                    messageBox && (<Messages setMessageBox={setMessageBox} teamId={managerDetails?.teamId} selectedEmpsIds={empIds}/>)
+                    messageBox && (<Messages setMessageBox={setMessageBox} teamId={managerDetails?.teamId} selectedEmpsIds={empIds} />)
                 }
             </div>
         </div>

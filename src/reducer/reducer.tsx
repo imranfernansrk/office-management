@@ -1,5 +1,6 @@
 import * as Models from "../models/ManagementModels";
-import { ManagementActions } from "../actions";
+import { ActionObject } from "../actions";
+import { Types } from "../actions";
 
 const initialState: Models.RootState = {
     teamManagers: [
@@ -7,7 +8,7 @@ const initialState: Models.RootState = {
             name: 'Shah Rukh Khan',
             id: '1',
             loginPassword: '123',
-            teamId: 100,
+            teamId: '100',
         }
     ],
     employees: [
@@ -18,31 +19,29 @@ const initialState: Models.RootState = {
             teamsId: []
         }
     ],
-    messages: [
-
-    ]
+    messages: []
 }
 
-export const managementReducer = (state: Models.RootStateModels.RootStateModels = initialState, action: ManagementActions.ActionObject): Models.RootStateModels.RootStateModels => {
+export const managementReducer = (state: Models.RootStateModels.RootStateModels = initialState, action: ActionObject): Models.RootStateModels.RootStateModels => {
     console.log('Reducer', action.payload)
     switch (action.type) {
-        case ManagementActions.Type.ADD_EMPLOYEE:
+        case Types.ADD_EMPLOYEE:
             return {
                 ...state,
                 employees: [...state.employees, action.payload]
             }
-        case ManagementActions.Type.ADD_MANAGER:
-            
+        case Types.ADD_MANAGER:
+
             return {
                 ...state,
                 teamManagers: [...state.teamManagers, action.payload]
             }
-        case ManagementActions.Type.ADD_MESSAGE:                          //changes
-                console.log('message reduce', action.payload)
-                return {
-                    ...state,
-                    messages: [...state.messages, action.payload]
-                }
+        case Types.ADD_MESSAGE:                          
+            console.log('message reduce', action.payload)
+            return {
+                ...state,
+                messages: [...state.messages, action.payload]
+            }
         default: return state;
     }
 }

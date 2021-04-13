@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useHistory, generatePath, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Models } from "../../models";
 import SignUpPage from "../Signup/Signup";
-import { LoginTitle, LoginString } from "../../constants";
-import { Form, Input, Button, notification } from "antd";
+import { LoginString } from "../../constants";
+import LoginForm from "./LoginForm";
 
+import { notification } from "antd";
 import './styles.css'
 
 const ManagerLogin = () => {
@@ -17,8 +18,6 @@ const ManagerLogin = () => {
     })
 
     const [validLogin, setValidLogin] = useState<boolean>(false)
-    const [validManagerId, setValidManagerId] = useState<string>('');
-    const [loginContainer, setLoginContainer] = useState<boolean>(true)
     const [signupContainer, setSignupContainer] = useState<boolean>(false)
 
     const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +25,7 @@ const ManagerLogin = () => {
         let value: string = event.target.value
         setLoginData({ ...loginData, [fieldName]: value })
     }
-    const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
+    const onSubmitEvent = () => {
         let mngrDatas: Models.TeamManagerObject[] = datas.teamManagers
         console.log(datas)
         console.log(mngrDatas)
@@ -37,19 +36,16 @@ const ManagerLogin = () => {
             if (data.id == loginData.id) {
                 if (data.loginPassword == loginData.loginPassword) {
                     userValid = true;
-                    // let teamId: number = data.teamId;
-                    // setLoginContainer(false)
                     successNotification(LoginString.AUTHENTICATION_SUCCESS);
                     setLoginData({ id: '', loginPassword: '' })
-                    // validLoginManager(data.id)
-                    sessionStorage.setItem('managerAuth',JSON.stringify(data));
+                    sessionStorage.setItem('managerAuth', JSON.stringify(data));
                     setValidLogin(true);
                 } else {
                     errorNotification(LoginString.PASSWORD_INCORRECT);
                     setLoginData({ ...loginData, loginPassword: '' })
                 }
             }
-            if((mngrDatas.length-1) == index && !userValid){
+            if ((mngrDatas.length - 1) == index && !userValid) {
                 errorNotification(LoginString.USERNAME_NOT_EXISTED);
             }
         });
@@ -71,77 +67,26 @@ const ManagerLogin = () => {
         });
     }
     const onClickSignUpContainer = () => {
-        // setLoginContainer(false)
         setSignupContainer(true)
     }
-    const history = useHistory();
-    const validLoginManager = (id: string) => {
-        // id && history.push(generatePath("/managerProfile/:id", { id }));
-        console.log('manager id', id);
-        setValidManagerId(id);
-        setValidLogin(true);
-    }
-
     if (validLogin) {
-        const url = `/managerProfile/${validManagerId}`
         return (
-            // <Redirect to={url} />
             <Redirect to="/managerProfile" />
         )
     }
     return (
         <div className="MANAGER_LOGIN_PROFILE">
-            {/* {
-                loginContainer && ( */}
-                    <div className="login-form-container">
-                        <Form
-                            name="normal_login"
-                            className="login-form"
-                            onFinish={(e) => onSubmitEvent(e)}
-                            >
-                            <Form.Item>
-                                <Input onChange={(e) => onChangeEvent(e)}
-                                    name="id"
-                                    value={loginData.id}
-                                    placeholder="Enter Manager Id" />
-                            </Form.Item>
-                            <Form.Item>
-                                <Input.Password
-                                    value={loginData.loginPassword}
-                                    name="loginPassword"
-                                    onChange={(e) => onChangeEvent(e)}
-                                    placeholder="Enter Manager Password" />
-                            </Form.Item>
-                            <Form.Item
-                                className="login-form-external-link">
-                                <a className="login-form-forgot">
-                                    {LoginTitle.FORGOT_PASSWORD}
-                                </a>
-                            </Form.Item>
-                            <div
-                                className="login-form-buttons">
-                                <Button type="primary"
-                                    size="large"
-                                    htmlType="submit"
-                                    className="form-login-button"
-                                    // onSubmit={(e)=> onSubmitEvent(e)}
-                                    >
-                                    {LoginTitle.LOG_IN}
-                                </Button>
-                            </div>
-                            <Form.Item
-                                className="login-form-external-link">
-                                <a 
-                                className="login-form-forgot"
-                                onClick={() => onClickSignUpContainer()}>
-                                    {LoginTitle.REGISTER}
-                                </a>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                {/* )
-            } */}
-            <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />
+            <div className="login-form-container">
+
+            <LoginForm 
+                placeholderId={LoginString.ENTER_MANAGER_ID}
+                placeholderPassword={LoginString.ENTER_MANAGER_PASSWORD}
+                loginData={loginData}
+                onChangeEvent={onChangeEvent}
+                onSubmitEvent={onSubmitEvent}
+                onClickSignUpContainer={onClickSignUpContainer}/>
+            </div>
+            <SignUpPage signupContainer={signupContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />
         </div>
     )
 

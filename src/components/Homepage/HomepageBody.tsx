@@ -19,7 +19,7 @@ const MainContent = () => {
                 {HomepageString.CONTENT_SUB_TITLE}
             </Title>
             <Button size="large" ghost={true}>
-                <Link to="/login">{HomepageTitle.GET_STARTED}</Link>
+                <Link className="get-started-link" to="/login">{HomepageTitle.GET_STARTED}</Link>
             </Button>
             </div>
         </div>

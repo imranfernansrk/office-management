@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { EmployeeProfileString, EmployeeProfileTitle } from "../../constants";
 
 import { Button } from "antd";
@@ -12,6 +11,7 @@ interface Props {
 }
 
 const EmployeeProfileBody = ({employeeName, messagesListContainer, clearLoggedUser}: Props) => {
+    console.log("JSX msg",messagesListContainer)
     return(
     <div className="">
         <div>
@@ -19,7 +19,6 @@ const EmployeeProfileBody = ({employeeName, messagesListContainer, clearLoggedUs
                 type="link"
                 className="employee-logout-link"
                 onClick={()=>clearLoggedUser()}>
-                {/* <Link to='/login'>{EmployeeProfileTitle.LOG_OUT}</Link> */}
                 {EmployeeProfileTitle.LOG_OUT}
             </Button>                
             <h2 className="text-center">{EmployeeProfileString.EMPLOYEE_PROFILE}</h2>
