@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { Models } from "../../models";
 import { ManagementActions, postMessagesData } from "../../actions";
 import { MessagesTitle } from "../../constants";
-import TextArea from "antd/lib/input/TextArea";
-import { notification } from "antd";
+
+import { notification, Input, message } from "antd";
+const { TextArea } = Input;
 
 export interface teamId {
     setMessageBox: Dispatch<SetStateAction<boolean>>
@@ -25,11 +26,11 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
     })
     console.log('After the setState',messageData)
 
-    const onChangeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const fieldName = event.target.name
-        let value: string = event.target.value
+    const onChangeEvent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        // const fieldName = event.target.name;
+        let value: string = event.target.value;
 
-        setMessageData({...messageData, [fieldName]:value})
+        setMessageData({...messageData, ["content"]:value})
         console.log(messageData)
     }
 
@@ -51,9 +52,9 @@ export const Messages = ({setMessageBox, teamId, selectedEmpsIds}: teamId) => {
 
     return(
         <div className="mt-3">
-            <form onSubmit={onSubmitMessage}>
-                <TextArea className="mr-3" name="content" onChange={(e)=>onChangeEvent(e)}/>
-                <button className="btn btn-md btn-success mt-2" type="submit" onSubmit={onSubmitMessage}>{MessagesTitle.SEND_MESSAGE}</button>
+            <form onSubmit={(e)=>onSubmitMessage(e)}>
+                <TextArea value={messageData.content} onChange={(e)=>onChangeEvent(e)}/>
+                <button className="btn btn-md btn-success mt-2" type="submit" onSubmit={(e)=>onSubmitMessage(e)}>{MessagesTitle.SEND_MESSAGE}</button>
             </form>
         </div>
     )

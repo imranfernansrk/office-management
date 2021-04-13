@@ -72,7 +72,7 @@ const SignUpPage = ({ signupContainer, setLoginContainer, setSignupContainer, ma
         showLoginContainer()
     }
     const showLoginContainer = () => {
-        setLoginContainer(true)
+        // setLoginContainer(true)
         setSignupContainer(false)
     }
 

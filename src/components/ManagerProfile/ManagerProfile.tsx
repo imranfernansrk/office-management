@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { Models } from "../../models";
 import { Messages } from "../Messages";
 import { ManagerProfileString, ManagerProfileTitle } from "../../constants";
@@ -10,22 +10,35 @@ import "./styles.css";
 import { Button } from "antd";
 
 export const ManagerProfile = () => {
-    const id: { id: string } = useParams()
-    console.log(id.id)
-    console.log('manager profile', Object.values(id))
-    let managerId: string = id.id
+    // const id: { id: string } = useParams()
+    // console.log(id.id)
+    // console.log('manager profile', Object.values(id))
+    // let managerId: string = id.id
 
     const [managerDetails, setManagerDetails] = useState<Models.TeamManagerObject>();
     const [employeesIdList, setEmployeesIdList] = useState<number[]>();
-    const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state=>state)
+    const [userLogout, setUserLogout] = useState<boolean>(false);
+    const datas: any = useSelector<Models.RootStateModels.RootStateModels>(state=>state);
 
     useEffect(() => {
-        const managerData: Models.TeamManagerObject = datas.teamManagers.find((data: Models.TeamManagerObject) => data.id == managerId)
-        console.log('success',managerData);
-        setManagerDetails(managerData);
+        // const managerData: Models.TeamManagerObject = datas.teamManagers.find((data: Models.TeamManagerObject) => data.id == managerId)
+        // console.log('success',managerData);
+        // setManagerDetails(managerData);
+        let managerObject = sessionStorage.getItem('managerAuth');
+        if(managerObject != null){
+            const managerData = JSON.parse(managerObject);
+            setManagerDetails(managerData);
+        }else{
+            setUserLogout(true);
+        }
         const employeesList: number[] =  datas.employees.map((data: Models.TeamEmployeeObject)=>data.id)
         setEmployeesIdList(employeesList);
-    }, [managerId]);
+    }, []);
+
+    const clearLoggedUser = () => {
+        sessionStorage.removeItem('managerAuth');
+        setUserLogout(true);
+    }
 
     console.log(employeesIdList)
     const [empIds, setEmpIds] = useState<string[]>([])
@@ -40,14 +53,19 @@ export const ManagerProfile = () => {
         event.preventDefault()
         setMessageBox(true)
     }
+    if(userLogout){
+        return (<Redirect to="/login" />)
+    }
     return(
         <div className="">
             {/* <ManagerDashboard /> */}
             <div>
                 <Button
                 type="link"
-                className="manager-logout-link">
-                <Link to='/login'>{ManagerProfileTitle.LOG_OUT}</Link>
+                className="manager-logout-link"
+                onClick={()=>clearLoggedUser()}>
+                {/* <Link to='/login'>{ManagerProfileTitle.LOG_OUT}</Link> */}
+                {ManagerProfileTitle.LOG_OUT}
                 </Button>
                 <h2 className="text-center">{ManagerProfileString.MANAGER_PROFILE}</h2>
                 <h3>{ManagerProfileString.USER_NAME} : {managerDetails?.name}</h3>

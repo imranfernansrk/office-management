@@ -28,7 +28,6 @@ const ManagerLogin = () => {
     }
     const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
         let mngrDatas: Models.TeamManagerObject[] = datas.teamManagers
-
         console.log(datas)
         console.log(mngrDatas)
         console.log(loginData)
@@ -38,11 +37,13 @@ const ManagerLogin = () => {
             if (data.id == loginData.id) {
                 if (data.loginPassword == loginData.loginPassword) {
                     userValid = true;
-                    let teamId: number = data.teamId;
-                    setLoginContainer(false)
+                    // let teamId: number = data.teamId;
+                    // setLoginContainer(false)
                     successNotification(LoginString.AUTHENTICATION_SUCCESS);
                     setLoginData({ id: '', loginPassword: '' })
-                    validLoginManager(data.id)
+                    // validLoginManager(data.id)
+                    sessionStorage.setItem('managerAuth',JSON.stringify(data));
+                    setValidLogin(true);
                 } else {
                     errorNotification(LoginString.PASSWORD_INCORRECT);
                     setLoginData({ ...loginData, loginPassword: '' })
@@ -52,7 +53,6 @@ const ManagerLogin = () => {
                 errorNotification(LoginString.USERNAME_NOT_EXISTED);
             }
         });
-        console.log('end map', validLogin)
     }
     const successNotification = (message: string) => {
         notification.config({
@@ -71,7 +71,7 @@ const ManagerLogin = () => {
         });
     }
     const onClickSignUpContainer = () => {
-        setLoginContainer(false)
+        // setLoginContainer(false)
         setSignupContainer(true)
     }
     const history = useHistory();
@@ -85,18 +85,20 @@ const ManagerLogin = () => {
     if (validLogin) {
         const url = `/managerProfile/${validManagerId}`
         return (
-            <Redirect to={url} />
+            // <Redirect to={url} />
+            <Redirect to="/managerProfile" />
         )
     }
     return (
         <div className="MANAGER_LOGIN_PROFILE">
-            {
-                loginContainer && (
+            {/* {
+                loginContainer && ( */}
                     <div className="login-form-container">
                         <Form
                             name="normal_login"
                             className="login-form"
-                            onFinish={(e) => onSubmitEvent(e)}>
+                            onFinish={(e) => onSubmitEvent(e)}
+                            >
                             <Form.Item>
                                 <Input onChange={(e) => onChangeEvent(e)}
                                     name="id"
@@ -121,7 +123,9 @@ const ManagerLogin = () => {
                                 <Button type="primary"
                                     size="large"
                                     htmlType="submit"
-                                    className="form-login-button">
+                                    className="form-login-button"
+                                    // onSubmit={(e)=> onSubmitEvent(e)}
+                                    >
                                     {LoginTitle.LOG_IN}
                                 </Button>
                             </div>
@@ -135,8 +139,8 @@ const ManagerLogin = () => {
                             </Form.Item>
                         </Form>
                     </div>
-                )
-            }
+                {/* )
+            } */}
             <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={true} employeeProfile={false} />
         </div>
     )

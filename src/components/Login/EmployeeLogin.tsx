@@ -26,27 +26,26 @@ const EmployeeLogin = () => {
         let value: string = event.target.value
         setLoginData({ ...loginData, [fieldName]: value })
     }
-    const onSubmitEvent = (event: React.FormEvent<HTMLButtonElement | HTMLFormElement>) => {
+    const onSubmitEvent = () => {
         let empDatas: Models.TeamEmployeeObject[] = datas.employees
 
         console.log(loginData)
         console.log(empDatas)
-        empDatas.map((data: Models.TeamEmployeeObject, index:number) => {
+        empDatas.map((data: Models.TeamEmployeeObject, index: number) => {
             let userValid: boolean = false;
             if (data.id == loginData.id) {
                 if (data.loginPassword == loginData.loginPassword) {
                     userValid = true;
-                    let empId: string = data.id;
-                    setLoginContainer(false)
                     successNotification(LoginString.AUTHENTICATION_SUCCESS);
-                    setLoginData({id:'',loginPassword:''})
-                    validLoginManager(data.id)
-                }else{
+                    setLoginData({ id: '', loginPassword: '' })
+                    sessionStorage.setItem('employeeAuth', JSON.stringify(data));
+                    setValidLogin(true);
+                } else {
                     errorNotification(LoginString.PASSWORD_INCORRECT);
-                    setLoginData({...loginData,loginPassword:''})
+                    setLoginData({ ...loginData, loginPassword: '' })
                 }
             }
-            if((empDatas.length-1) == index && !userValid){
+            if ((empDatas.length - 1) == index && !userValid) {
                 errorNotification(LoginString.USERNAME_NOT_EXISTED);
             }
         });
@@ -68,7 +67,7 @@ const EmployeeLogin = () => {
         });
     }
     const onClickSignUpContainer = () => {
-        setLoginContainer(false)
+        // setLoginContainer(false)
         setSignupContainer(true)
     }
 
@@ -78,66 +77,61 @@ const EmployeeLogin = () => {
         console.log('Employee id', id);
         setValidEmployeeId(id);
         setValidLogin(true);
-    } 
+    }
 
-    if(validLogin){
-        const url = `/employeeProfile/${validEmployeeId}`
+    if (validLogin) {
+        // const url = `/employeeProfile/${validEmployeeId}`
         return (
-            <Redirect to={url} />
+            // <Redirect to={url} />
+            <Redirect to="/employeeProfile" />
         )
     }
     return (
         <div className="employee-login-profile">
-                {
-                    loginContainer && (
-                        <div className="login-form-container">
-                                <Form
-                                    name="normal_login"
-                                    className="login-form"
-                                    onFinish={(e)=>onSubmitEvent(e)}>
-                                    <Form.Item>
-                                        <Input onChange={(e) => onChangeEvent(e)}
-                                            name="id"
-                                            value={loginData.id}
-                                            placeholder="Enter Employee Id" />
-                                    </Form.Item>
-                                    <Form.Item>
-                                        <Input.Password
-                                            value={loginData.loginPassword}
-                                            name="loginPassword"
-                                            onChange={(e) => onChangeEvent(e)}
-                                            placeholder="Enter Employee Password" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        className="login-form-external-link">
-                                        <a className="login-form-forgot" href="">
-                                            {LoginTitle.FORGOT_PASSWORD}
-                                        </a>
-                                    </Form.Item>
-                                    <div
-                                        className="login-form-buttons">
-                                        <Button type="primary"
-                                            size="large"
-                                            htmlType="submit"
-                                            className="form-login-button">
-                                            {LoginTitle.LOG_IN}
-                                        </Button>
-                                    </div>
-                                    <Form.Item
-                                        className="login-form-external-link">
-                                        <a 
-                                        className="login-form-forgot"
-                                        onClick={() => onClickSignUpContainer()}>
-                                        {LoginTitle.REGISTER}
-                                        </a>
-                                    </Form.Item>
-                                </Form>
-                        </div>
-                    )
-                }
-                {
-                    signupContainer && <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true}/>
-                }
+            <div className="login-form-container">
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    onFinish={() => onSubmitEvent()}>
+                    <Form.Item>
+                        <Input onChange={(e) => onChangeEvent(e)}
+                            name="id"
+                            value={loginData.id}
+                            placeholder="Enter Employee Id" />
+                    </Form.Item>
+                    <Form.Item>
+                        <Input.Password
+                            value={loginData.loginPassword}
+                            name="loginPassword"
+                            onChange={(e) => onChangeEvent(e)}
+                            placeholder="Enter Employee Password" />
+                    </Form.Item>
+                    <Form.Item
+                        className="login-form-external-link">
+                        <a className="login-form-forgot" href="">
+                            {LoginTitle.FORGOT_PASSWORD}
+                        </a>
+                    </Form.Item>
+                    <div
+                        className="login-form-buttons">
+                        <Button type="primary"
+                            size="large"
+                            htmlType="submit"
+                            className="form-login-button">
+                            {LoginTitle.LOG_IN}
+                        </Button>
+                    </div>
+                    <Form.Item
+                        className="login-form-external-link">
+                        <a
+                            className="login-form-forgot"
+                            onClick={() => onClickSignUpContainer()}>
+                            {LoginTitle.REGISTER}
+                        </a>
+                    </Form.Item>
+                </Form>
+            </div>
+            <SignUpPage signupContainer={signupContainer} setLoginContainer={setLoginContainer} setSignupContainer={setSignupContainer} managerProfile={false} employeeProfile={true} />
         </div>
     )
 }

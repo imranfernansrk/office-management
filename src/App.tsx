@@ -20,8 +20,10 @@ const App: React.FC = () => {
           <Switch>
             <Route exact path="/" component={Homepage} />
             <Route path="/login" component={Login} />
-            <Route path="/managerProfile/:id" component={ManagerProfile} />
-            <Route path="/employeeProfile/:id" component={EmployeeProfile} />
+            {/* <Route path="/managerProfile/:id" component={ManagerProfile} /> */}
+            <Route path="/managerProfile" component={ManagerProfile} />
+            {/* <Route path="/employeeProfile/:id" component={EmployeeProfile} /> */}
+            <Route path="/employeeProfile" component={EmployeeProfile} />
           </Switch>
         </Router>
       </Provider>
