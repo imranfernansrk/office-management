@@ -1,0 +1,1 @@
+export { managementReducer } from "./reducer";

@@ -1,0 +1,49 @@
+.login-page-menu {
+    display: flex;
+    align-items: center;
+    width: 28%;
+}
+.login-page-menu .ant-tabs-content-holder {
+    min-width: 100%;
+}
+.login-profile {
+    height: 100%;
+  }
+  .login-form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+  }
+  .login-form {
+    background-color: #ffffff;
+    padding: 10px !important;
+    width: 100%;
+  }
+  .login-form-external-link{
+      text-align: right;
+  }
+  .login-form-buttons{
+        display: block;
+  }
+  .form-login-button {
+    display: flex; 
+    justify-content: center;
+    width: 100% !important;
+  }
+  .form-sidup-button {
+    display: flex;
+    float: right;
+  }
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .login-tab-pane {
+      min-width: 100%;
+  }
+  .login-form-forgot {
+    text-decoration: none !important;
+  }

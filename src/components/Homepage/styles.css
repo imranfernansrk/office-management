@@ -1,0 +1,39 @@
+.homepage-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+.main-content-bg-image {
+    background-image: url(https://trainingindustry.com/content/uploads/2019/09/Skills-Gap-Analysis-9.10.19-928x522.jpg);
+    background-repeat: no-repeat;
+    filter: blur(5px);
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+.homepage-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    padding: 0 !important;
+}
+.main-content-title {
+    position: absolute;
+    text-align: center;
+}
+.main-content-title-box {
+    border: 1px solid white;
+    padding: 15px;
+}
+.header-content-layout {
+    position: relative;
+}
+.footer-content {
+    text-align: center;
+}
+.get-started-link {
+    text-decoration: none !important;
+}
